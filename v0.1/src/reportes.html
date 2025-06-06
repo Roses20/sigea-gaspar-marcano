@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes y Consultas - SIGEA</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Reportes y Consultas</h1>
+        <a href="dashboard.html">Volver al Panel</a>
+    </header>
+    <main>
+        <section>
+            <h2>Materias inscritas de un estudiante</h2>
+            <input type="number" id="reporte-estudiante-id" placeholder="ID del estudiante">
+            <button id="btn-reporte-materias-estudiante">Consultar</button>
+            <div id="reporte-materias-estudiante"></div>
+        </section>
+        <section>
+            <h2>Notas de un estudiante</h2>
+            <input type="number" id="reporte-notas-estudiante-id" placeholder="ID del estudiante">
+            <button id="btn-reporte-notas-estudiante">Consultar</button>
+            <div id="reporte-notas-estudiante"></div>
+        </section>
+        <section>
+            <h2>Inscripciones por período</h2>
+            <input type="text" id="reporte-periodo" placeholder="Período (ej: 2024-2025)">
+            <button id="btn-reporte-inscripciones-periodo">Consultar</button>
+            <div id="reporte-inscripciones-periodo"></div>
+        </section>
+        <section>
+            <h2>Estudiantes por materia</h2>
+            <input type="number" id="reporte-materia-id" placeholder="ID de la materia">
+            <button id="btn-reporte-estudiantes-materia">Consultar</button>
+            <div id="reporte-estudiantes-materia"></div>
+        </section>
+        <section>
+            <h2>Estudiantes por sección</h2>
+            <input type="number" id="reporte-anio" placeholder="Año">
+            <input type="text" id="reporte-seccion" placeholder="Sección">
+            <button id="btn-reporte-estudiantes-seccion">Consultar</button>
+            <div id="reporte-estudiantes-seccion"></div>
+        </section>
+    </main>
+</body>
+</html>

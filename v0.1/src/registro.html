@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario - SIGEA</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div id="register-container">
+        <form id="register-form">
+            <h2>Registro de Usuario</h2>
+            <label for="nuevo-usuario">Usuario:</label>
+            <input type="text" id="nuevo-usuario" name="nuevo-usuario" required>
+            <label for="nuevo-email">Correo electrónico:</label>
+            <input type="email" id="nuevo-email" name="nuevo-email" required>
+            <label for="nueva-contrasena">Contraseña:</label>
+            <input type="password" id="nueva-contrasena" name="nueva-contrasena" required>
+            <label for="confirmar-contrasena">Confirmar Contraseña:</label>
+            <input type="password" id="confirmar-contrasena" name="confirmar-contrasena" required>
+            <label for="nuevo-nombre-completo">Nombre completo:</label>
+            <input type="text" id="nuevo-nombre-completo" name="nuevo-nombre-completo" required>
+            <button type="submit">Registrarse</button>
+            <p class="mensaje-error" id="registro-error"></p>
+            <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
+        </form>
+    </div>
+</body>
+</html>

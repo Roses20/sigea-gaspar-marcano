@@ -1,0 +1,20 @@
+# Ignorar dependencias
+node_modules/
+
+# Ignorar archivos de entorno
+.env
+
+# Ignorar archivos de logs
+*.log
+
+# Ignorar configuraciones de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar archivos temporales
+*.tmp
+*.swp
+*.swo
+
+# Ignorar carpetas de pruebas
+v0.1/testing/
