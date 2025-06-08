@@ -6,8 +6,9 @@ const {
     updateSeccion,
     deleteSeccion
 } = require('../controllers/seccion.controller');
-const { authenticateToken } = require('../middleware/auth.middleware');
+const { authenticateToken, checkRole } = require('../middleware/auth.middleware');
 const { body, param, validationResult } = require('express-validator');
+const { Profesor, Seccion } = require('../models');
 
 const router = express.Router();
 
@@ -37,5 +38,30 @@ router.put('/:id', [
     validate
 ], updateSeccion); // Proteger la ruta
 router.delete('/:id', authenticateToken, deleteSeccion); // Proteger la ruta
+
+// Admin puede cambiar la sección de un profesor
+router.put('/:id', checkRole(['admin']), async (req, res, next) => {
+    try {
+        const { tutorId } = req.body;
+
+        // Validar que el profesor existe
+        const profesor = await Profesor.findByPk(tutorId);
+        if (!profesor) {
+            return res.status(404).json({ message: 'Profesor no encontrado' });
+        }
+
+        // Validar que la sección corresponde al año especificado
+        const seccion = await Seccion.findByPk(req.params.id);
+        if (seccion.anio !== '5to') {
+            return res.status(400).json({ message: 'Solo se pueden asignar profesores a secciones de 5to año.' });
+        }
+
+        // Actualizar la sección
+        await Seccion.update({ tutorId }, { where: { id: req.params.id } });
+        res.json({ message: 'Sección actualizada correctamente.' });
+    } catch (error) {
+        next(error);
+    }
+});
 
 module.exports = router;

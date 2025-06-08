@@ -8,6 +8,8 @@ const {
 } = require('../controllers/estudiante.controller');
 const { authenticateToken, checkRole } = require('../middleware/auth.middleware');
 const { body, param, validationResult } = require('express-validator');
+const { Estudiante, Usuario } = require('../models');
+const { hashPassword } = require('../utils/hash');
 
 const router = express.Router();
 
@@ -61,5 +63,37 @@ router.put('/:id', checkRole(['admin', 'profesor']), [
 
 // Solo admin puede eliminar estudiantes
 router.delete('/:id', checkRole(['admin']), deleteEstudiante); // Proteger la ruta
+
+// Estudiante puede ver sus datos personales
+router.get('/perfil', checkRole(['estudiante']), async (req, res, next) => {
+    try {
+        const estudiante = await Estudiante.findByPk(req.user.id);
+        if (!estudiante) {
+            return res.status(404).json({ message: 'Estudiante no encontrado' });
+        }
+        res.json(estudiante);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Estudiante puede modificar sus datos de perfil
+router.put('/perfil', checkRole(['estudiante']), async (req, res, next) => {
+    try {
+        const { username, password } = req.body;
+        const estudiante = await Usuario.findByPk(req.user.id);
+        if (!estudiante) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        if (username) estudiante.username = username;
+        if (password) estudiante.password = await hashPassword(password);
+
+        await estudiante.save();
+        res.json({ message: 'Perfil actualizado correctamente.' });
+    } catch (error) {
+        next(error);
+    }
+});
 
 module.exports = router;

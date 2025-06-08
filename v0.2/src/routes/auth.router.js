@@ -1,6 +1,7 @@
 const express = require('express');
 const { generateToken, hashPassword, comparePassword } = require('../auth/auth');
 const { models } = require('../libs/sequelize');
+const { loginRateLimiter } = require('../middleware/rateLimiter.middleware');
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.post('/register', async (req, res, next) => {
 });
 
 // Endpoint para inicio de sesión
-router.post('/login', async (req, res, next) => {
+router.post('/login', loginRateLimiter, async (req, res, next) => {
     try {
         console.log('Request body:', req.body); // Depurar el cuerpo de la solicitud
         const { username, password } = req.body;

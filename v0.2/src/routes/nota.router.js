@@ -6,8 +6,9 @@ const {
     updateNota,
     deleteNota
 } = require('../controllers/nota.controller');
-const { authenticateToken } = require('../middleware/auth.middleware');
+const { authenticateToken, checkRole } = require('../middleware/auth.middleware');
 const { body, param, validationResult } = require('express-validator');
+const { Seccion, Estudiante, Nota, Materia, Profesor } = require('../models');
 
 const router = express.Router();
 
@@ -41,5 +42,51 @@ router.put('/:id', [
     validate
 ], updateNota); // Proteger la ruta
 router.delete('/:id', authenticateToken, deleteNota); // Proteger la ruta
+
+// Profesor puede añadir notas de estudiantes asignados
+router.post('/', checkRole(['profesor']), async (req, res, next) => {
+    try {
+        const { anio, notas } = req.body;
+
+        // Validar que los estudiantes estén asignados al profesor
+        const estudiantesAsignados = await Seccion.findAll({
+            where: { anio, tutorId: req.user.id },
+            include: [{ model: Estudiante, as: 'estudiantes' }]
+        });
+
+        const estudiantesIds = estudiantesAsignados.map(est => est.id);
+        const notasValidas = notas.every(nota => estudiantesIds.includes(nota.estudianteId));
+
+        if (!notasValidas) {
+            return res.status(403).json({ message: 'Algunos estudiantes no están asignados a usted.' });
+        }
+
+        // Insertar las notas
+        await Nota.bulkCreate(notas);
+        res.json({ message: 'Notas añadidas correctamente.' });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Estudiante puede ver sus propias notas en un año específico
+router.get('/', checkRole(['estudiante']), async (req, res, next) => {
+    try {
+        const { anio } = req.query;
+
+        // Filtrar notas por estudiante y año
+        const notas = await Nota.findAll({
+            where: { estudianteId: req.user.id, anio },
+            include: [
+                { model: Materia, as: 'materia' },
+                { model: Profesor, as: 'profesor' }
+            ]
+        });
+
+        res.json(notas);
+    } catch (error) {
+        next(error);
+    }
+});
 
 module.exports = router;

@@ -8,6 +8,9 @@ const {
 } = require('../controllers/profesor.controller');
 const { authenticateToken } = require('../middleware/auth.middleware');
 const { body, param, validationResult } = require('express-validator');
+const { checkRole } = require('../middleware/role.middleware');
+const { Seccion, Estudiante, Nota, Periodo } = require('../models');
+const { Op } = require('sequelize');
 
 const router = express.Router();
 
@@ -43,5 +46,54 @@ router.put('/:id', [
     validate
 ], updateProfesor); // Proteger la ruta
 router.delete('/:id', authenticateToken, deleteProfesor); // Proteger la ruta
+
+// Profesor puede ver la lista de estudiantes asignados
+router.get('/estudiantes', checkRole(['profesor']), async (req, res, next) => {
+    try {
+        const estudiantesAsignados = await Seccion.findAll({
+            where: { tutorId: req.user.id },
+            include: [{ model: Estudiante, as: 'estudiantes' }]
+        });
+
+        res.json(estudiantesAsignados);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Profesor puede modificar la nota de estudiantes asignados
+router.put('/notas', checkRole(['profesor']), async (req, res, next) => {
+    try {
+        const { estudianteId, materiaId, nota } = req.body;
+
+        // Validar que el estudiante está asignado al profesor
+        const estudianteAsignado = await Seccion.findOne({
+            where: { tutorId: req.user.id },
+            include: [{ model: Estudiante, as: 'estudiantes', where: { id: estudianteId } }]
+        });
+
+        if (!estudianteAsignado) {
+            return res.status(403).json({ message: 'El estudiante no está asignado a usted.' });
+        }
+
+        // Validar que la nota pertenece al periodo escolar en curso
+        const periodoActual = await Periodo.findOne({ where: { fecha_fin: { [Op.gte]: new Date() } } });
+        if (!periodoActual) {
+            return res.status(400).json({ message: 'No se pueden modificar notas de periodos pasados.' });
+        }
+
+        const notaExistente = await Nota.findOne({ where: { estudianteId, materiaId, periodoId: periodoActual.id } });
+        if (!notaExistente) {
+            return res.status(404).json({ message: 'Nota no encontrada.' });
+        }
+
+        notaExistente.nota = nota;
+        await notaExistente.save();
+
+        res.json({ message: 'Nota actualizada correctamente.' });
+    } catch (error) {
+        next(error);
+    }
+});
 
 module.exports = router;

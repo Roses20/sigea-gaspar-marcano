@@ -1,54 +1,67 @@
-# Resumen del Backend
+# Sistema de Gestión y Control de Notas Académicas
 
-Este backend está diseñado para gestionar un sistema académico. Proporciona APIs para manejar estudiantes, profesores, materias, notas, periodos, secciones y asignaciones de materias a profesores. Además, incluye autenticación mediante JWT y validación de datos para garantizar la seguridad y consistencia.
+## Descripción
+Este sistema permite gestionar y controlar las notas académicas de estudiantes en una institución educativa. Está diseñado para tres tipos de usuarios: estudiantes, profesores y administradores.
 
-## Funcionalidades principales
+### Funcionalidades
 
-1. **Gestión de estudiantes:**
-   - Crear, leer, actualizar y eliminar estudiantes.
+#### **Estudiantes**
+- Ver sus propias notas en un año específico.
+- Ver sus datos personales registrados en el sistema.
+- Modificar su perfil (nombre de usuario y contraseña).
 
-2. **Gestión de profesores:**
-   - Crear, leer, actualizar y eliminar profesores.
+#### **Profesores**
+- Ver la lista de estudiantes asignados según las materias y secciones.
+- Modificar las notas de estudiantes asignados en el periodo escolar en curso.
+- Ver sus datos personales registrados en el sistema.
+- Modificar su perfil (nombre de usuario y contraseña).
 
-3. **Gestión de materias:**
-   - Crear, leer, actualizar y eliminar materias.
+#### **Administradores**
+- Permisos generales para ver y modificar todos los datos del sistema:
+  - Estudiantes
+  - Profesores
+  - Materias
+  - Notas
+  - Periodos
+  - Secciones
 
-4. **Gestión de notas:**
-   - Crear, leer, actualizar y eliminar notas.
-
-5. **Gestión de periodos:**
-   - Crear, leer, actualizar y eliminar periodos académicos.
-
-6. **Gestión de secciones:**
-   - Crear, leer, actualizar y eliminar secciones.
-
-7. **Asignación de materias a profesores:**
-   - Crear, leer, actualizar y eliminar asignaciones.
-
-8. **Autenticación:**
-   - Registro e inicio de sesión de usuarios.
-   - Protección de rutas mediante tokens JWT.
-
-9. **Validación de datos:**
-   - Validación de datos en todas las rutas para garantizar la integridad.
-
-## Tecnologías utilizadas
-
-- **Node.js**
-- **Express.js**
-- **Sequelize** (ORM para bases de datos)
-- **PostgreSQL**
-- **JWT** (Autenticación)
-- **Bcrypt** (Encriptación de contraseñas)
-- **Express-validator** (Validación de datos)
-
-## Cómo probar el proyecto
-
-1. Clona el repositorio.
-2. Instala las dependencias usando el script proporcionado.
+## Instalación
+1. Clona el repositorio:
+   ```bash
+   git clone <url-del-repositorio>
+   ```
+2. Instala las dependencias:
+   ```bash
+   npm install
+   ```
 3. Configura las variables de entorno en un archivo `.env`.
-4. Ejecuta el servidor y prueba las APIs.
+4. Inicia el servidor:
+   ```bash
+   npm start
+   ```
 
----
+## Uso
+- Accede a la API en `http://localhost:3000/api`.
+- Consulta la documentación completa en el archivo `API_DOCUMENTATION.md`.
 
-Para más detalles, consulta la documentación completa en `API_DOCUMENTATION.md`.
+## Tecnologías
+- Node.js
+- Express
+- Sequelize
+- PostgreSQL
+
+## Contribución
+1. Haz un fork del repositorio.
+2. Crea una rama para tu funcionalidad:
+   ```bash
+   git checkout -b nueva-funcionalidad
+   ```
+3. Realiza tus cambios y haz un commit:
+   ```bash
+   git commit -m "Descripción de los cambios"
+   ```
+4. Haz un push a tu rama:
+   ```bash
+   git push origin nueva-funcionalidad
+   ```
+5. Abre un pull request.

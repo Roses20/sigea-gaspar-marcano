@@ -100,6 +100,43 @@ http://localhost:3000/api
 }
 ```
 
+#### GET `/estudiantes/perfil`
+- **Description:** Obtener los datos personales del estudiante que inició sesión.
+- **Headers:**
+  - `Authorization`: Bearer `<token>`
+- **Response:**
+```json
+{
+  "id": 1,
+  "nombre": "Juan",
+  "apellido": "Perez",
+  "cedula": "12345678",
+  "telefono": "123456789",
+  "fecha_nacimiento": "2000-01-01",
+  "direccion": "Calle Falsa 123",
+  "anio": "2023",
+  "seccion": "A"
+}
+```
+
+#### PUT `/estudiantes/perfil`
+- **Description:** Modificar los datos de perfil del estudiante que inició sesión.
+- **Headers:**
+  - `Authorization`: Bearer `<token>`
+- **Body:**
+```json
+{
+  "username": "nuevoUsuario",
+  "password": "nuevaContraseña"
+}
+```
+- **Response:**
+```json
+{
+  "message": "Perfil actualizado correctamente."
+}
+```
+
 ---
 
 ### 2. **Profesores**
@@ -185,11 +222,8 @@ http://localhost:3000/api
 }
 ```
 
----
-
-### 3. **Materias**
-#### GET `/materias`
-- **Description:** Obtener todas las materias.
+#### GET `/profesores/estudiantes`
+- **Description:** Obtener la lista de estudiantes asignados al profesor que inició sesión.
 - **Headers:**
   - `Authorization`: Bearer `<token>`
 - **Response:**
@@ -197,59 +231,54 @@ http://localhost:3000/api
 [
   {
     "id": 1,
-    "nombre": "Matemáticas",
-    "descripcion": "Materia de cálculo y álgebra"
+    "nombre": "Juan",
+    "apellido": "Perez",
+    "cedula": "12345678",
+    "telefono": "123456789",
+    "fecha_nacimiento": "2000-01-01",
+    "direccion": "Calle Falsa 123",
+    "anio": "2023",
+    "seccion": "A"
   }
 ]
 ```
 
-#### POST `/materias`
-- **Description:** Crear una nueva materia.
+#### PUT `/profesores/notas`
+- **Description:** Modificar la nota de un estudiante asignado al profesor que inició sesión.
 - **Headers:**
   - `Authorization`: Bearer `<token>`
 - **Body:**
 ```json
 {
-  "nombre": "Matemáticas",
-  "descripcion": "Materia de cálculo y álgebra"
+  "estudianteId": 1,
+  "materiaId": 2,
+  "nota": 18
 }
 ```
 - **Response:**
 ```json
 {
-  "id": 1,
-  "nombre": "Matemáticas",
-  "descripcion": "Materia de cálculo y álgebra"
+  "message": "Nota actualizada correctamente."
 }
 ```
 
-#### PUT `/materias/:id`
-- **Description:** Actualizar una materia por ID.
+---
+
+### 3. **Administradores**
+#### PUT `/secciones/:id`
+- **Description:** Cambiar la sección de un profesor.
 - **Headers:**
   - `Authorization`: Bearer `<token>`
 - **Body:**
 ```json
 {
-  "nombre": "Matemáticas Avanzadas"
+  "tutorId": 5
 }
 ```
 - **Response:**
 ```json
 {
-  "id": 1,
-  "nombre": "Matemáticas Avanzadas",
-  "descripcion": "Materia de cálculo y álgebra"
-}
-```
-
-#### DELETE `/materias/:id`
-- **Description:** Eliminar una materia por ID.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Response:**
-```json
-{
-  "id": 1
+  "message": "Sección actualizada correctamente."
 }
 ```
 
