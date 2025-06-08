@@ -18,3 +18,6 @@ Thumbs.db
 
 # Ignorar carpetas de pruebas
 v0.1/testing/
+
+# Ignorar script de commit
+git_commit.sh
