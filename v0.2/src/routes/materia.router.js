@@ -8,6 +8,7 @@ const {
 } = require('../controllers/materia.controller');
 const { authenticateToken } = require('../middleware/auth.middleware');
 const { body, param, validationResult } = require('express-validator');
+const { Materia } = require('../db/models');
 
 const router = express.Router();
 

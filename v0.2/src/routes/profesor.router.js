@@ -9,7 +9,7 @@ const {
 const { authenticateToken } = require('../middleware/auth.middleware');
 const { body, param, validationResult } = require('express-validator');
 const { checkRole } = require('../middleware/role.middleware');
-const { Seccion, Estudiante, Nota, Periodo } = require('../models');
+const { Seccion, Estudiante, Nota, Periodo } = require('../db/models');
 const { Op } = require('sequelize');
 
 const router = express.Router();

@@ -8,7 +8,7 @@ const {
 } = require('../controllers/nota.controller');
 const { authenticateToken, checkRole } = require('../middleware/auth.middleware');
 const { body, param, validationResult } = require('express-validator');
-const { Seccion, Estudiante, Nota, Materia, Profesor } = require('../models');
+const { Seccion, Estudiante, Nota, Materia, Profesor } = require('../db/models');
 
 const router = express.Router();
 

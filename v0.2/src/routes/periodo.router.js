@@ -8,6 +8,7 @@ const {
 } = require('../controllers/periodo.controller');
 const { authenticateToken } = require('../middleware/auth.middleware');
 const { body, param, validationResult } = require('express-validator');
+const { Periodo } = require('../db/models');
 
 const router = express.Router();
 
