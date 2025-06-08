@@ -1,21 +1,29 @@
-const { verifyToken } = require('../auth/auth');
+const jwt = require('jsonwebtoken');
 
 // Middleware para verificar el token JWT
 function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
+    const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
-        return res.status(401).json({ message: 'Acceso denegado. Token no proporcionado.' });
+        return res.status(401).json({ message: 'Token no proporcionado' });
     }
 
     try {
-        const user = verifyToken(token);
-        req.user = user; // Agrega la información del usuario al objeto req
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded; // Incluye el rol en req.user
         next();
     } catch (error) {
-        return res.status(403).json({ message: 'Token inválido.' });
+        return res.status(403).json({ message: 'Token inválido' });
     }
 }
 
-module.exports = { authenticateToken };
+function checkRole(allowedRoles) {
+    return (req, res, next) => {
+        const userRole = req.user.rol;
+        if (!allowedRoles.includes(userRole)) {
+            return res.status(403).json({ message: 'Acceso denegado' });
+        }
+        next();
+    };
+}
+
+module.exports = { authenticateToken, checkRole };

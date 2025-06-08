@@ -19,7 +19,14 @@ router.post('/register', async (req, res, next) => {
 // Endpoint para inicio de sesión
 router.post('/login', async (req, res, next) => {
     try {
+        console.log('Request body:', req.body); // Depurar el cuerpo de la solicitud
         const { username, password } = req.body;
+
+        // Validación de campos obligatorios
+        if (!username || !password) {
+            return res.status(400).json({ message: 'Los campos username y password son obligatorios' });
+        }
+
         const user = await models.Usuario.findOne({ where: { username } });
         if (!user) {
             return res.status(401).json({ message: 'Usuario no encontrado' });

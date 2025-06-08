@@ -1,3 +1,5 @@
+require('dotenv').config({ path: './.env' });
+
 const { Sequelize } = require('sequelize');
 const { Estudiante, EstudianteSchema } = require('./estudiante.model');
 const { Profesor, ProfesorSchema } = require('./profesor.model');
@@ -8,10 +10,9 @@ const { Usuario, UsuarioSchema } = require('./usuario.model');
 const { Seccion, SeccionSchema } = require('./seccion.model');
 const { ProfesorMateria, ProfesorMateriaSchema } = require('./profesor_materia.model');
 
-// Configura tu conexión Sequelize aquí
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
-    logging: false,
+    logging: false, // Deshabilitar el registro de consultas
 });
 
 function setupModels(sequelize){
@@ -24,7 +25,5 @@ function setupModels(sequelize){
     Seccion.init(SeccionSchema, Seccion.config(sequelize));
     ProfesorMateria.init(ProfesorMateriaSchema, ProfesorMateria.config(sequelize));
 }
-// Aquí puedes definir asociaciones si las necesitas
-// Ejemplo: Estudiante.belongsTo(Seccion, { foreignKey: 'seccionId' });
 
 module.exports = setupModels;

@@ -6,7 +6,7 @@ const {
     updateEstudiante,
     deleteEstudiante
 } = require('../controllers/estudiante.controller');
-const { authenticateToken } = require('../middleware/auth.middleware');
+const { authenticateToken, checkRole } = require('../middleware/auth.middleware');
 const { body, param, validationResult } = require('express-validator');
 
 const router = express.Router();
@@ -19,10 +19,10 @@ function validate(req, res, next) {
     next();
 }
 
-router.get('/', authenticateToken, getEstudiantes); // Proteger la ruta
-router.get('/:id', authenticateToken, getEstudiante); // Proteger la ruta
-router.post('/', [
-    authenticateToken,
+router.use(authenticateToken);
+
+// Solo admin puede crear estudiantes
+router.post('/', checkRole(['admin']), [
     body('nombre').isString().notEmpty().withMessage('El nombre es obligatorio'),
     body('apellido').isString().notEmpty().withMessage('El apellido es obligatorio'),
     body('cedula').isString().notEmpty().withMessage('La cédula es obligatoria'),
@@ -33,8 +33,20 @@ router.post('/', [
     body('seccion').isString().notEmpty().withMessage('La sección es obligatoria'),
     validate
 ], createEstudiante); // Proteger la ruta
-router.put('/:id', [
-    authenticateToken,
+
+// Admin y profesor pueden ver todos los estudiantes
+router.get('/', checkRole(['admin', 'profesor']), getEstudiantes); // Proteger la ruta
+
+// Estudiante solo puede ver sus propios datos
+router.get('/:id', checkRole(['admin', 'profesor', 'estudiante']), async (req, res, next) => {
+    if (req.user.rol === 'estudiante' && req.user.id !== parseInt(req.params.id)) {
+        return res.status(403).json({ message: 'Acceso denegado' });
+    }
+    getEstudiante(req, res, next);
+}); // Proteger la ruta
+
+// Solo admin y profesor pueden modificar datos de estudiantes
+router.put('/:id', checkRole(['admin', 'profesor']), [
     param('id').isInt().withMessage('El ID debe ser un número entero'),
     body('nombre').optional().isString().withMessage('El nombre debe ser un texto'),
     body('apellido').optional().isString().withMessage('El apellido debe ser un texto'),
@@ -46,6 +58,8 @@ router.put('/:id', [
     body('seccion').optional().isString().withMessage('La sección debe ser un texto'),
     validate
 ], updateEstudiante); // Proteger la ruta
-router.delete('/:id', authenticateToken, deleteEstudiante); // Proteger la ruta
+
+// Solo admin puede eliminar estudiantes
+router.delete('/:id', checkRole(['admin']), deleteEstudiante); // Proteger la ruta
 
 module.exports = router;

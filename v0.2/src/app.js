@@ -1,10 +1,18 @@
 const express = require('express');
-const dotenv = require('dotenv');
+require('dotenv').config({ path: './.env' });
 const cors = require('cors');
 
-dotenv.config();
-const app = express();
+// Centraliza la carga de las variables de entorno
+module.exports = {
+  databaseUrl: process.env.DATABASE_URL,
+  dbUser: process.env.DB_USER,
+  dbPassword: process.env.DB_PASSWORD,
+  dbHost: process.env.DB_HOST,
+  dbPort: process.env.DB_PORT,
+  dbName: process.env.DB_NAME,
+};
 
+const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors());

@@ -9,6 +9,7 @@ const sequelize = new Sequelize(
     {
         host: config.dbHost,
         dialect: 'postgres',
+        logging: false, // Deshabilitar el registro de consultas
     }
 );
 
