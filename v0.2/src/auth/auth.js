@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const secretKey = process.env.JWT_SECRET || 'defaultSecretKey';
+const secretKey = process.env.JWT_SECRET || 'bendiciones0420.';
 
 // Generar un token JWT
 function generateToken(payload) {
