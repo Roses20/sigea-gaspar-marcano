@@ -40,6 +40,25 @@ Este sistema permite gestionar y controlar las notas académicas de estudiantes 
    npm start
    ```
 
+## Configuración del archivo `.env`
+Crea un archivo llamado `.env` en la carpeta `v0.2` con el siguiente formato y reemplaza los valores según tu entorno:
+
+```
+PORT=3000
+DB_USER='postgres'
+DB_PASSWORD='tu_contraseña'
+DB_HOST='localhost'
+DB_PORT='5432'
+DB_NAME='nombre_base_datos'
+DATABASE_URL='postgres://postgres:tu_contraseña@localhost:5432/nombre_base_datos'
+JWT_SECRET=tu_clave_secreta
+```
+
+- `PORT`: Puerto en el que se ejecutará el servidor (por defecto 3000).
+- `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_NAME`: Datos de conexión a la base de datos PostgreSQL.
+- `DATABASE_URL`: Cadena de conexión completa a tu base de datos PostgreSQL (usada por Sequelize).
+- `JWT_SECRET`: Clave secreta para firmar y verificar los tokens JWT.
+
 ## Uso
 - Accede a la API en `http://localhost:3000/api`.
 - Consulta la documentación completa en el archivo `API_DOCUMENTATION.md`.
