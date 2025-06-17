@@ -8,6 +8,7 @@ const periodoRoutes = require('./periodo.router');
 const usuarioRoutes = require('./usuario.router');
 const seccionRoutes = require('./seccion.router');
 const profesorMateriaRoutes = require('./profesor_materia.router');
+const historialNotasRouter = require('./historial_notas.router');
 
 const router = express.Router();
 // Definir las rutas para cada recurso
@@ -19,5 +20,6 @@ router.use('/periodos', periodoRoutes);
 router.use('/usuarios', usuarioRoutes);
 router.use('/secciones', seccionRoutes);
 router.use('/profesor-materias', profesorMateriaRoutes);
+router.use('/historial-notas', historialNotasRouter);
 
 module.exports = router;
