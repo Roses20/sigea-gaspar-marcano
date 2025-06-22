@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registrar Profesor</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    @media (max-width: 768px) {
+      aside { display: none; }
+      #mobile-menu { display: block; }
+    }
+    @media (min-width: 769px) {
+      #mobile-menu { display: none; }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.7s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .transition-card {
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .transition-card:hover {
+      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.15);
+      transform: translateY(-2px) scale(1.01);
+    }
+    .transition-btn {
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    .transition-btn:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col md:flex-row">
+
+  <!-- Menú móvil -->
+  <nav id="mobile-menu" class="bg-blue-800 text-white flex md:hidden items-center justify-between px-4 py-3 animate-fade-in">
+    <span class="text-xl font-bold">Administrador</span>
+    <button id="open-menu" class="text-2xl">☰</button>
+    <div id="mobile-dropdown" class="hidden absolute top-14 left-0 w-full bg-blue-900 z-50 flex flex-col animate-fade-in">
+      <a href="admin-inicio.html" class="px-4 py-3 hover:bg-blue-700">🏠 Inicio</a>
+      <a href="admin-usuarios.html" class="px-4 py-3 hover:bg-blue-700">👥 Usuarios</a>
+      <a href="admin-materias.html" class="px-4 py-3 hover:bg-blue-700">📚 Materias</a>
+      <a href="admin-periodos.html" class="px-4 py-3 hover:bg-blue-700">📅 Periodos</a>
+      <a href="admin-secciones.html" class="px-4 py-3 hover:bg-blue-700">🏷️ Secciones</a>
+      <a href="admin-historial-notas.html" class="px-4 py-3 hover:bg-blue-700">📝 Historial de Notas</a>
+      <a href="admin-reportes.html" class="px-4 py-3 hover:bg-blue-700">📊 Reportes</a>
+      <a href="#" class="px-4 py-3 hover:bg-red-600 cerrar-sesion">🚪 Cerrar sesión</a>
+    </div>
+  </nav>
+
+  <!-- Menú lateral desktop -->
+  <aside class="w-64 bg-blue-800 text-white flex-col py-6 px-4 hidden md:flex animate-fade-in">
+    <h2 class="text-2xl font-bold mb-10 text-center">Administrador</h2>
+    <nav class="flex flex-col gap-4">
+      <a href="admin-inicio.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>🏠</span> Inicio
+      </a>
+      <a href="admin-usuarios.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>👥</span> Usuarios
+      </a>
+      <a href="admin-materias.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>📚</span> Materias
+      </a>
+      <a href="admin-periodos.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>📅</span> Periodos
+      </a>
+      <a href="admin-secciones.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>🏷️</span> Secciones
+      </a>
+      <a href="admin-historial-notas.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>📝</span> Historial de Notas
+      </a>
+      <a href="admin-reportes.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>📊</span> Reportes
+      </a>
+      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2 cerrar-sesion transition-btn">
+        <span>🚪</span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 overflow-auto animate-fade-in">
+    <section class="p-8">
+      <div class="bg-white rounded-xl p-6 shadow-md max-w-lg mx-auto transition-card animate-fade-in">
+        <h1 class="text-2xl font-bold mb-6 text-center">Registrar Profesor</h1>
+        <form action="#" method="POST" class="flex flex-col gap-4" id="form-profesor">
+          <div class="flex flex-wrap gap-4 mb-4 justify-center">
+            <a href="admin-usuarios.html" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md transition-btn">Volver a usuarios</a>
+          </div>
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Nombre completo</span>
+            <input type="text" name="nombre" required class="border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn" placeholder="Ejemplo: María González"/>
+          </label>
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Correo electrónico</span>
+            <input type="email" name="email" required class="border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn" placeholder="Ejemplo: mariagonzalez@email.com"/>
+          </label>
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Número de empleado</span>
+            <input type="text" name="numero_empleado" required class="border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn" placeholder="Ejemplo: 12345"/>
+          </label>
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Dirección</span>
+            <input type="text" name="direccion" class="border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn" placeholder="Ejemplo: Av. Principal, Edif. 10"/>
+          </label>
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Fecha de nacimiento</span>
+            <input type="date" name="fecha_nacimiento" class="border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn"/>
+          </label>
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Cédula</span>
+            <input type="text" name="cedula" class="border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn" placeholder="Ejemplo: V-87654321"/>
+          </label>
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Teléfono</span>
+            <input type="tel" name="telefono" class="border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn" placeholder="Ejemplo: 0412-1234567 o +58 412-1234567"/>
+          </label>
+          <button type="submit" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-3 rounded shadow-md transition-btn">Registrar profesor</button>
+          <div id="form-feedback" class="text-sm mt-2"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+  <script>
+// Menú móvil desplegable
+const openMenu = document.getElementById('open-menu');
+const dropdown = document.getElementById('mobile-dropdown');
+if (openMenu && dropdown) {
+  openMenu.onclick = () => {
+    dropdown.classList.toggle('hidden');
+  };
+  document.addEventListener('click', (e) => {
+    if (!dropdown.contains(e.target) && e.target !== openMenu) {
+      dropdown.classList.add('hidden');
+    }
+  });
+}
+// Feedback visual en el formulario
+const form = document.getElementById('form-profesor');
+const feedback = document.getElementById('form-feedback');
+if (form && feedback) {
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+    feedback.textContent = 'Enviando...';
+    feedback.className = 'text-blue-500 mt-2 animate-fade-in';
+    setTimeout(() => {
+      feedback.textContent = 'Profesor registrado exitosamente (simulado)';
+      feedback.className = 'text-green-600 mt-2 animate-fade-in';
+    }, 1200);
+  };
+}
+  </script>
+</body>
+</html>

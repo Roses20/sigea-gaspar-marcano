@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registrar Usuario - Administrador</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    @media (max-width: 768px) {
+      aside { display: none; }
+      #mobile-menu { display: block; }
+    }
+    @media (min-width: 769px) {
+      #mobile-menu { display: none; }
+    }
+    .fade-in { animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: none; }
+    }
+    .transition-card { transition: box-shadow 0.2s, transform 0.2s; }
+    .transition-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.12); transform: scale(1.03); }
+    .transition-btn { transition: background 0.2s, transform 0.2s; }
+    .transition-btn:hover { transform: scale(1.05); }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col md:flex-row">
+
+  <!-- Menú móvil -->
+  <nav id="mobile-menu" class="bg-blue-800 text-white flex md:hidden items-center justify-between px-4 py-3">
+    <span class="text-xl font-bold">Administrador</span>
+    <button id="open-menu" class="text-2xl">☰</button>
+    <div id="mobile-dropdown" class="hidden absolute top-14 left-0 w-full bg-blue-900 z-50 flex flex-col">
+      <a href="admin-inicio.html" class="px-4 py-3 hover:bg-blue-700">🏠 Inicio</a>
+      <a href="admin-usuarios.html" class="px-4 py-3 hover:bg-blue-700">👥 Usuarios</a>
+      <a href="admin-materias.html" class="px-4 py-3 hover:bg-blue-700">📚 Materias</a>
+      <a href="admin-periodos.html" class="px-4 py-3 hover:bg-blue-700">📅 Periodos</a>
+      <a href="admin-secciones.html" class="px-4 py-3 hover:bg-blue-700">🏷️ Secciones</a>
+      <a href="admin-historial-notas.html" class="px-4 py-3 hover:bg-blue-700">📝 Historial de Notas</a>
+      <a href="admin-reportes.html" class="px-4 py-3 hover:bg-blue-700">📊 Reportes</a>
+      <a href="#" class="px-4 py-3 hover:bg-red-600 cerrar-sesion">🚪 Cerrar sesión</a>
+    </div>
+  </nav>
+
+  <!-- Menú lateral desktop -->
+  <aside class="w-64 bg-blue-800 text-white flex-col py-6 px-4 hidden md:flex">
+    <h2 class="text-2xl font-bold mb-10 text-center">Administrador</h2>
+    <nav class="flex flex-col gap-4">
+      <a href="admin-inicio.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏠</span> Inicio
+      </a>
+      <a href="admin-usuarios.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>👥</span> Usuarios
+      </a>
+      <a href="admin-materias.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>📚</span> Materias
+      </a>
+      <a href="admin-periodos.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>📅</span> Periodos
+      </a>
+      <a href="admin-secciones.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏷️</span> Secciones
+      </a>
+      <a href="admin-historial-notas.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>📝</span> Historial de Notas
+      </a>
+      <a href="admin-reportes.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>📊</span> Reportes
+      </a>
+      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2 cerrar-sesion">
+        <span>🚪</span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 overflow-auto">
+    <header class="flex justify-between items-center px-8 py-4 bg-blue-800 text-white shadow">
+      <div class="flex items-center gap-3">
+        <img src="img/Logo.png" alt="Logo" class="h-10 w-10" />
+        <span class="text-xl font-bold">Gaspar Marcano</span>
+      </div>
+      <div class="text-right">
+        <p class="font-bold admin-username">Administrador</p>
+      </div>
+    </header>
+
+    <section class="p-8 max-w-2xl mx-auto fade-in">
+      <form id="form-registro-usuario" class="bg-white rounded-xl shadow p-6 space-y-4 transition-card">
+        <div>
+          <label for="rol" class="block text-sm font-medium">Tipo de usuario</label>
+          <select id="rol" name="rol" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+            <option value="">Selecciona un tipo</option>
+            <option value="profesor">Profesor</option>
+            <option value="estudiante">Estudiante</option>
+          </select>
+        </div>
+        <div>
+          <label for="username" class="block text-sm font-medium">Nombre completo</label>
+          <input type="text" id="username" name="username" required placeholder="Ej: Juan Pérez" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium">Correo electrónico</label>
+          <input type="email" id="email" name="email" required placeholder="Ej: usuario@mail.com" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+        <div>
+          <label for="telefono" class="block text-sm font-medium">Teléfono</label>
+          <input type="tel" id="telefono" name="telefono" required placeholder="Ej: +58 412-1234567" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium">Contraseña</label>
+          <input type="password" id="password" name="password" required minlength="6" placeholder="Mínimo 6 caracteres" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+        <div id="extra-fields"></div>
+        <button type="submit" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded shadow-md transition-btn">Registrar</button>
+        <div class="flex flex-wrap gap-4 mb-4 justify-center">
+          <a href="admin-usuarios.html" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md transition-btn">Volver a usuarios</a>
+        </div>
+        <div id="form-feedback" class="text-sm mt-2"></div>
+      </form>
+    </section>
+  </main>
+
+<script>
+// Menú móvil desplegable
+const openMenu = document.getElementById('open-menu');
+const dropdown = document.getElementById('mobile-dropdown');
+if (openMenu && dropdown) {
+  openMenu.onclick = () => {
+    dropdown.classList.toggle('hidden');
+  };
+  document.addEventListener('click', (e) => {
+    if (!dropdown.contains(e.target) && e.target !== openMenu) {
+      dropdown.classList.add('hidden');
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.fade-in').forEach(el => {
+    el.classList.add('fade-in');
+  });
+});
+</script>
+<script src="admin-registrar-usuario.js"></script>
+</body>
+</html>

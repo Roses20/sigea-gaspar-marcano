@@ -24,16 +24,11 @@ const SeccionSchema = {
         allowNull: false,
         type: DataTypes.STRING
     },
-    anio: {
+    periodo_id: {
         allowNull: false,
-        type: DataTypes.STRING
-    },
-    tutorId: {
-        allowNull: true,
         type: DataTypes.INTEGER,
-        field: 'tutor_id',
         references: {
-            model: 'profesor',
+            model: 'periodo',
             key: 'id'
         }
     }

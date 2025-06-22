@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Administrar Periodos</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    @media (max-width: 768px) {
+      aside { display: none; }
+      #mobile-menu { display: block; }
+    }
+    @media (min-width: 769px) {
+      #mobile-menu { display: none; }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.7s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .transition-card {
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .transition-card:hover {
+      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.15);
+      transform: translateY(-2px) scale(1.01);
+    }
+    .transition-btn {
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    .transition-btn:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col md:flex-row">
+
+  <!-- Menú móvil -->
+  <nav id="mobile-menu" class="bg-blue-800 text-white flex md:hidden items-center justify-between px-4 py-3 animate-fade-in">
+    <span class="text-xl font-bold">Administrador</span>
+    <button id="open-menu" class="text-2xl">☰</button>
+    <div id="mobile-dropdown" class="hidden absolute top-14 left-0 w-full bg-blue-900 z-50 flex flex-col animate-fade-in">
+      <a href="admin-inicio.html" class="px-4 py-3 hover:bg-blue-700">🏠 Inicio</a>
+      <a href="admin-usuarios.html" class="px-4 py-3 hover:bg-blue-700">👥 Usuarios</a>
+      <a href="admin-materias.html" class="px-4 py-3 hover:bg-blue-700">📚 Materias</a>
+      <a href="admin-periodos.html" class="px-4 py-3 hover:bg-blue-700">📅 Periodos</a>
+      <a href="admin-secciones.html" class="px-4 py-3 hover:bg-blue-700">🏷️ Secciones</a>
+      <a href="admin-historial-notas.html" class="px-4 py-3 hover:bg-blue-700">📝 Historial de Notas</a>
+      <a href="admin-reportes.html" class="px-4 py-3 hover:bg-blue-700">📊 Reportes</a>
+      <a href="#" class="px-4 py-3 hover:bg-red-600 cerrar-sesion">🚪 Cerrar sesión</a>
+    </div>
+  </nav>
+
+  <!-- Menú lateral desktop -->
+  <aside class="w-64 bg-blue-800 text-white flex-col py-6 px-4 hidden md:flex animate-fade-in">
+    <h2 class="text-2xl font-bold mb-10 text-center">Administrador</h2>
+    <nav class="flex flex-col gap-4">
+      <a href="admin-inicio.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>🏠</span> Inicio
+      </a>
+      <a href="admin-usuarios.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>👥</span> Usuarios
+      </a>
+      <a href="admin-materias.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>📚</span> Materias
+      </a>
+      <a href="admin-periodos.html" class="bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn" aria-current="page">
+        <span>📅</span> Periodos
+      </a>
+      <a href="admin-secciones.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>🏷️</span> Secciones
+      </a>
+      <a href="admin-historial-notas.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>📝</span> Historial de Notas
+      </a>
+      <a href="admin-reportes.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2 transition-btn">
+        <span>📊</span> Reportes
+      </a>
+      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2 cerrar-sesion transition-btn">
+        <span>🚪</span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <div class="container mx-auto py-8 flex-1 animate-fade-in">
+    <h1 class="text-2xl font-bold mb-6 text-center">Administración de Periodos</h1>
+    <!-- Formulario para agregar/editar periodo -->
+    <div class="bg-white p-6 rounded shadow mb-8 max-w-xl mx-auto transition-card animate-fade-in">
+      <form id="periodo-form" class="space-y-4">
+        <div class="flex flex-wrap gap-4 mb-4 justify-center">
+          <a href="admin-registrar-usuario.html" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md transition-btn">Registrar usuario</a>
+        </div>
+        <input type="hidden" id="periodo-id">
+        <div>
+          <label for="nombre" class="block text-sm font-medium">Nombre del periodo</label>
+          <input type="text" id="nombre" name="nombre" required placeholder="Ej: 2025-1" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn">
+        </div>
+        <div>
+          <label for="fecha_inicio" class="block text-sm font-medium">Fecha de inicio</label>
+          <input type="date" id="fecha_inicio" name="fecha_inicio" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn">
+        </div>
+        <div>
+          <label for="fecha_fin" class="block text-sm font-medium">Fecha de fin</label>
+          <input type="date" id="fecha_fin" name="fecha_fin" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn">
+        </div>
+        <div class="flex gap-4">
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-btn">Guardar</button>
+          <button type="button" id="cancelar-edicion" class="hidden bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500 transition-btn">Cancelar</button>
+        </div>
+        <div id="form-feedback" class="text-sm mt-2"></div>
+      </form>
+    </div>
+    <!-- Tabla de periodos -->
+    <div class="bg-white p-6 rounded shadow transition-card animate-fade-in">
+      <h2 class="text-xl font-semibold mb-4">Listado de Periodos</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th class="px-4 py-2">ID</th>
+              <th class="px-4 py-2">Nombre</th>
+              <th class="px-4 py-2">Inicio</th>
+              <th class="px-4 py-2">Fin</th>
+              <th class="px-4 py-2">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="periodos-tbody">
+            <!-- Filas generadas dinámicamente -->
+          </tbody>
+        </table>
+      </div>
+      <div id="tabla-feedback" class="text-sm mt-2"></div>
+    </div>
+  </div>
+  <script src="admin-periodos.js"></script>
+  <script>
+    // Menú móvil desplegable
+    const openMenu = document.getElementById('open-menu');
+    const dropdown = document.getElementById('mobile-dropdown');
+    if (openMenu && dropdown) {
+      openMenu.onclick = () => {
+        dropdown.classList.toggle('hidden');
+      };
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target) && e.target !== openMenu) {
+          dropdown.classList.add('hidden');
+        }
+      });
+    }
+
+    async function cargarPeriodos() {
+      const tbody = document.getElementById('periodos-tbody');
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-gray-500 animate-fade-in">Cargando periodos...</td></tr>';
+      try {
+        const res = await fetch('/api/periodos', { credentials: 'include' });
+        if (!res.ok) throw new Error('Error al cargar periodos');
+        const periodos = await res.json();
+        if (!Array.isArray(periodos) || periodos.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-gray-500 animate-fade-in">No hay periodos registrados.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = '';
+        periodos.forEach(p => {
+          const tr = document.createElement('tr');
+          tr.className = 'animate-fade-in';
+          tr.innerHTML = `
+            <td class="px-4 py-2">${p.id}</td>
+            <td class="px-4 py-2">${p.nombre}</td>
+            <td class="px-4 py-2">${p.fecha_inicio ? p.fecha_inicio.substring(0,10) : ''}</td>
+            <td class="px-4 py-2">${p.fecha_fin ? p.fecha_fin.substring(0,10) : ''}</td>
+            <td class="px-4 py-2 flex gap-2">
+              <button class="bg-yellow-400 px-2 py-1 rounded text-xs transition-btn hover:bg-yellow-300" onclick="editarPeriodo(${p.id}, '${p.nombre.replace(/'/g, "\\'")}', '${p.fecha_inicio}', '${p.fecha_fin}')">Editar</button>
+              <button class="bg-red-500 text-white px-2 py-1 rounded text-xs transition-btn hover:bg-red-400" onclick="eliminarPeriodo(${p.id})">Eliminar</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-red-500 animate-fade-in">${e.message}</td></tr>`;
+      }
+    }
+
+    cargarPeriodos();
+  </script>
+</body>
+</html>

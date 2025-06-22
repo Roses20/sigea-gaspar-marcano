@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!sessionTimestamp || now - Number(sessionTimestamp) > TEN_MINUTES) {
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
+    localStorage.removeItem('rol');
+    localStorage.removeItem('email');
+    localStorage.removeItem('username');
     localStorage.removeItem('sessionTimestamp');
     window.location.href = 'login.html';
     return;
@@ -53,6 +56,9 @@ document.addEventListener('DOMContentLoaded', function () {
       e.stopImmediatePropagation();
       localStorage.removeItem('token');
       localStorage.removeItem('usuario');
+      localStorage.removeItem('rol');
+      localStorage.removeItem('email');
+      localStorage.removeItem('username');
       localStorage.removeItem('sessionTimestamp');
       window.location.replace('login.html');
     });

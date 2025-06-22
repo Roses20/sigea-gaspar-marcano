@@ -5,11 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Reportes - Administrador</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @media (max-width: 768px) {
+      aside { display: none; }
+      #mobile-menu { display: block; }
+    }
+    @media (min-width: 769px) {
+      #mobile-menu { display: none; }
+    }
+    .fade-in { animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: none; }
+    }
+    .transition-card { transition: box-shadow 0.2s, transform 0.2s; }
+    .transition-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.12); transform: scale(1.03); }
+    .transition-btn { transition: background 0.2s, transform 0.2s; }
+    .transition-btn:hover { transform: scale(1.05); }
+  </style>
 </head>
-<body class="bg-gray-100 h-screen flex">
+<body class="bg-gray-100 h-screen flex flex-col md:flex-row">
 
-  <!-- Menú lateral -->
-  <aside class="w-64 bg-blue-800 text-white flex flex-col py-6 px-4">
+  <!-- Menú móvil -->
+  <nav id="mobile-menu" class="bg-blue-800 text-white flex md:hidden items-center justify-between px-4 py-3">
+    <span class="text-xl font-bold">Administrador</span>
+    <button id="open-menu" class="text-2xl">☰</button>
+    <div id="mobile-dropdown" class="hidden absolute top-14 left-0 w-full bg-blue-900 z-50 flex flex-col">
+      <a href="admin-inicio.html" class="px-4 py-3 hover:bg-blue-700">🏠 Inicio</a>
+      <a href="admin-usuarios.html" class="px-4 py-3 hover:bg-blue-700">👥 Usuarios</a>
+      <a href="admin-reportes.html" class="px-4 py-3 hover:bg-blue-700">📊 Reportes</a>
+      <a href="#" class="px-4 py-3 hover:bg-red-600 cerrar-sesion">🚪 Cerrar sesión</a>
+    </div>
+  </nav>
+
+  <!-- Menú lateral desktop -->
+  <aside class="w-64 bg-blue-800 text-white flex-col py-6 px-4 hidden md:flex">
     <h2 class="text-2xl font-bold mb-10 text-center">Administrador</h2>
     <nav class="flex flex-col gap-4">
       <a href="admin-inicio.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
@@ -18,10 +48,10 @@
       <a href="admin-usuarios.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
         <span>👥</span> Usuarios
       </a>
-      <a href="admin-reportes.html" class="bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+      <a href="admin-reportes.html" class="bg-blue-700 px-4 py-2 rounded flex items-center gap-2" aria-current="page">
         <span>📊</span> Reportes
       </a>
-      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2">
+      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2 cerrar-sesion">
         <span>🚪</span> Cerrar sesión
       </a>
     </nav>
@@ -39,26 +69,24 @@
       </div>
     </header>
 
-    <section class="p-8 max-w-5xl mx-auto">
-      <h1 class="text-2xl font-bold mb-6">Reportes</h1>
-
-      <div class="bg-white rounded-xl p-6 shadow space-y-6">
+    <section class="p-8 max-w-5xl mx-auto fade-in">
+      <div class="bg-white rounded-xl p-6 shadow space-y-6 transition-card">
         <div>
           <h2 class="text-lg font-semibold text-blue-800 mb-2">Reporte de asistencia</h2>
           <p class="text-gray-700">Consulta las estadísticas de asistencia de profesores y estudiantes.</p>
-          <button class="mt-2 bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md">Ver reporte</button>
+          <button class="mt-2 bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md transition-btn">Ver reporte</button>
         </div>
 
         <div>
           <h2 class="text-lg font-semibold text-blue-800 mb-2">Reporte de rendimiento académico</h2>
           <p class="text-gray-700">Analiza el rendimiento general de los estudiantes por año y sección.</p>
-          <button class="mt-2 bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md">Ver reporte</button>
+          <button class="mt-2 bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md transition-btn">Ver reporte</button>
         </div>
 
         <div>
           <h2 class="text-lg font-semibold text-blue-800 mb-2">Reporte de usuarios registrados</h2>
           <p class="text-gray-700">Listado y estadísticas de profesores y estudiantes registrados.</p>
-          <button class="mt-2 bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md">Ver reporte</button>
+          <button class="mt-2 bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md transition-btn">Ver reporte</button>
         </div>
       </div>
 
@@ -67,4 +95,26 @@
 
 </body>
 <script src="admin.js"></script>
+<script src="admin-reportes.js"></script>
+<script>
+// Menú móvil desplegable
+const openMenu = document.getElementById('open-menu');
+const dropdown = document.getElementById('mobile-dropdown');
+if (openMenu && dropdown) {
+  openMenu.onclick = () => {
+    dropdown.classList.toggle('hidden');
+  };
+  // Cerrar menú al hacer click fuera
+  document.addEventListener('click', (e) => {
+    if (!dropdown.contains(e.target) && e.target !== openMenu) {
+      dropdown.classList.add('hidden');
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.fade-in').forEach(el => {
+    el.classList.add('fade-in');
+  });
+});
+</script>
 </html>

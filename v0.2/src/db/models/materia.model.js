@@ -24,6 +24,11 @@ const MateriaSchema = {
         allowNull: false,
         type: DataTypes.STRING
     },
+    codigo: {
+        allowNull: false,
+        unique: true,
+        type: DataTypes.STRING
+    },
     descripcion: {
         allowNull: true,
         type: DataTypes.STRING

@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('token', data.token);
         localStorage.setItem('usuario', JSON.stringify(data.usuario));
         localStorage.setItem('sessionTimestamp', Date.now());
+        localStorage.setItem('rol', data.usuario.rol);
+        localStorage.setItem('email', data.usuario.email);
+        localStorage.setItem('username', data.usuario.username);
         // Redirigir según el rol recibido
         if (data.usuario.rol === 'admin') {
           window.location.href = 'admin-inicio.html';

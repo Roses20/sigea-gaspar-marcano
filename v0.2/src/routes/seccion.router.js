@@ -25,16 +25,14 @@ router.get('/:id', authenticateToken, getSeccion); // Proteger la ruta
 router.post('/', [
     authenticateToken,
     body('nombre').isString().notEmpty().withMessage('El nombre es obligatorio'),
-    body('anio').isString().notEmpty().withMessage('El año es obligatorio'),
-    body('tutorId').optional().isInt().withMessage('El ID del tutor debe ser un número entero'),
+    body('periodo_id').isInt().notEmpty().withMessage('El periodo_id es obligatorio'),
     validate
 ], createSeccion); // Proteger la ruta
 router.put('/:id', [
     authenticateToken,
     param('id').isInt().withMessage('El ID debe ser un número entero'),
     body('nombre').optional().isString().withMessage('El nombre debe ser un texto'),
-    body('anio').optional().isString().withMessage('El año debe ser un texto'),
-    body('tutorId').optional().isInt().withMessage('El ID del tutor debe ser un número entero'),
+    body('periodo_id').optional().isInt().withMessage('El periodo_id debe ser un número entero'),
     validate
 ], updateSeccion); // Proteger la ruta
 router.delete('/:id', authenticateToken, deleteSeccion); // Proteger la ruta
