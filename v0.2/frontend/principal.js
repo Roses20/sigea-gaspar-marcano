@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     } else if (rol === 'profesor') {
       window.location.href = 'profesor-inicio.html';
     } else if (rol === 'estudiante') {
-      window.location.href = 'estudiante.html';
+      window.location.href = 'estudiante-inicio.html';
     }
   }
 });

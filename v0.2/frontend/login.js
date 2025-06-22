@@ -1,6 +1,4 @@
 // login.js
-// Script para manejar el inicio de sesión desde login.html
-
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('form');
   form.addEventListener('submit', async function (e) {
@@ -34,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (data.usuario.rol === 'profesor') {
           window.location.href = 'profesor-inicio.html';
         } else if (data.usuario.rol === 'estudiante') {
-          window.location.href = 'estudiante.html';
+          window.location.href = 'estudiante-inicio.html';
         } else {
           alert('Rol no reconocido.');
         }

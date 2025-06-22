@@ -149,10 +149,22 @@ if (form && feedback) {
     e.preventDefault();
     feedback.textContent = 'Enviando...';
     feedback.className = 'text-blue-500 mt-2 animate-fade-in';
-    setTimeout(() => {
-      feedback.textContent = 'Profesor registrado exitosamente (simulado)';
+    const data = Object.fromEntries(new FormData(form));
+    try {
+      const res = await fetch('/api/profesores', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+        credentials: 'include'
+      });
+      if (!res.ok) throw new Error(await res.text());
+      feedback.textContent = 'Profesor registrado exitosamente';
       feedback.className = 'text-green-600 mt-2 animate-fade-in';
-    }, 1200);
+      form.reset();
+    } catch (err) {
+      feedback.textContent = 'Error: ' + (err.message || 'No se pudo registrar el profesor');
+      feedback.className = 'text-red-600 mt-2 animate-fade-in';
+    }
   };
 }
   </script>
