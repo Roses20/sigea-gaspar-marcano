@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil - Profesor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col md:flex-row">
+
+  <!-- Menú lateral -->
+  <aside class="w-full md:w-64 bg-blue-800 text-white flex flex-row md:flex-col py-4 md:py-6 px-2 md:px-4 overflow-x-auto md:overflow-visible">
+    <h2 class="text-2xl font-bold mb-10 text-center">Profesor</h2>
+    <nav class="flex flex-col gap-4">
+      <a href="profesor-inicio.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏠</span> Inicio
+      </a>
+      <a href="profesor-secciones.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏫</span> Secciones
+      </a>
+      <a href="profesor-perfil.html" class="bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>👤</span> Perfil
+      </a>
+      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2 cerrar-sesion">
+        <span>🚪</span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 w-full overflow-x-auto">
+    <!-- Barra superior -->
+    <header class="flex justify-between items-center px-8 py-4 bg-blue-800 text-white shadow">
+      <div class="flex items-center gap-3">
+        <img src="img/Logo.png" alt="Logo" class="h-10 w-10">
+        <span class="text-xl font-bold">Gaspar Marcano</span>
+      </div>
+      <div class="text-right">
+        <p class="font-bold profesor-username">Profesor</p>
+      </div>
+    </header>
+
+    <!-- Contenido -->
+    <section class="p-4 md:p-8 w-full">
+      <div class="bg-white rounded-xl p-4 md:p-6 shadow-md max-w-2xl mx-auto w-full">
+        <h1 class="text-2xl font-bold mb-6">Perfil del Profesor</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <div>
+            <label class="text-gray-700 font-semibold">Nombre:
+              <input type="text" class="profesor-nombre w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: Elsy" />
+            </label>
+          </div>
+          <div>
+            <label class="text-gray-700 font-semibold">Apellido:
+              <input type="text" class="profesor-apellido w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: Linda" />
+            </label>
+          </div>
+          <div>
+            <label class="text-gray-700 font-semibold">Cédula:
+              <input type="text" class="profesor-cedula w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: V-12345678" />
+            </label>
+          </div>
+          <div>
+            <label class="text-gray-700 font-semibold">Correo:
+              <input type="email" class="profesor-correo w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: elsyjar20@gmail.com" />
+            </label>
+          </div>
+          <div>
+            <label class="text-gray-700 font-semibold">Teléfono:
+              <input type="text" class="profesor-telefono w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: 0412-1234567 o +58 412-1234567" />
+            </label>
+          </div>
+          <div>
+            <label class="text-gray-700 font-semibold">Dirección:
+              <input type="text" class="profesor-direccion w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: Av. Principal, Edif. 10" />
+            </label>
+          </div>
+        </div>
+        <div class="flex gap-4 mt-6">
+          <button id="editar-datos-profesor" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded shadow-md transition">Editar</button>
+          <button id="guardar-datos-profesor" class="bg-green-700 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded shadow-md transition hidden">Guardar</button>
+          <button id="cancelar-edicion-profesor" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded shadow-md transition hidden">Cancelar</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+</body>
+<script src="profesor.js"></script>
+</html>

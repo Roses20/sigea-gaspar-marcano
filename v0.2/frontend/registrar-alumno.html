@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registrar Alumno</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col md:flex-row">
+
+  <!-- Menú lateral -->
+  <aside class="w-full md:w-64 bg-blue-800 text-white flex flex-row md:flex-col py-4 md:py-6 px-2 md:px-4 overflow-x-auto md:overflow-visible">
+    <h2 class="text-2xl font-bold mb-10 text-center">Administrador</h2>
+    <nav class="flex flex-col gap-4">
+      <a href="admin-inicio.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏠</span> Inicio
+      </a>
+      <a href="admin-usuarios.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>👥</span> Usuarios
+      </a>
+      <a href="admin-reportes.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>📊</span> Reportes
+      </a>
+      <a href="admin-configuracion.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>⚙️</span> Configuración
+      </a>
+      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2">
+        <span>🚪</span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 w-full overflow-x-auto">
+    <header class="flex justify-between items-center px-8 py-4 bg-blue-800 text-white shadow">
+      <div class="flex items-center gap-3">
+        <img src="img/Logo.png" alt="Logo" class="h-10 w-10" />
+        <span class="text-xl font-bold">Gaspar Marcano</span>
+      </div>
+      <div class="text-right">
+        <p class="font-bold">Admin. Luis Gómez</p>
+      </div>
+    </header>
+
+    <section class="p-4 md:p-8 w-full">
+      <div class="bg-white rounded-xl p-4 md:p-6 shadow-md max-w-lg mx-auto w-full">
+        <h1 class="text-2xl font-bold mb-6 text-center">Registrar Alumno</h1>
+
+        <form class="flex flex-col gap-4 w-full">
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Nombre completo</span>
+            <input type="text" name="nombre" required class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ejemplo: Juan Pérez"/>
+          </label>
+
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Correo electrónico</span>
+            <input type="email" name="email" required class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ejemplo: juanperez@email.com"/>
+          </label>
+
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Año</span>
+            <input type="text" name="anio" required placeholder="Ejemplo: 1er año, 2do año..." class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+          </label>
+
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Sección</span>
+            <input type="text" name="seccion" required placeholder="Ejemplo: A, B, C..." class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+          </label>
+
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Dirección</span>
+            <input type="text" name="direccion" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ejemplo: Calle 1, Casa 2"/>
+          </label>
+
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Fecha de nacimiento</span>
+            <input type="date" name="fecha_nacimiento" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+          </label>
+
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Cédula</span>
+            <input type="text" name="cedula" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ejemplo: V-12345678"/>
+          </label>
+
+          <label class="flex flex-col">
+            <span class="font-semibold mb-1">Teléfono</span>
+            <input type="tel" name="telefono" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ejemplo: 0412-1234567 o +58 412-1234567"/>
+          </label>
+
+          <button type="submit" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-3 rounded shadow-md transition">
+            Registrar alumno
+          </button>
+        </form>
+
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>
+

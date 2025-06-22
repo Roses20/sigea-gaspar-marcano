@@ -11,11 +11,6 @@ const { Seccion, SeccionSchema } = require('./seccion.model');
 const { ProfesorMateria, ProfesorMateriaSchema } = require('./profesor_materia.model');
 const { HistorialNotas, HistorialNotasSchema } = require('./historial_notas.model');
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect: 'postgres',
-    logging: false,
-});
-
 function setupModels(sequelize){
     Estudiante.init(EstudianteSchema, Estudiante.config(sequelize));
     Profesor.init(ProfesorSchema, Profesor.config(sequelize));

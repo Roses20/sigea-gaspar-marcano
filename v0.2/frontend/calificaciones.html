@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panel Estudiante - Calificaciones</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col md:flex-row">
+  <!-- Menú lateral -->
+  <aside class="w-full md:w-64 bg-blue-800 text-white flex flex-row md:flex-col py-4 md:py-6 px-2 md:px-4 overflow-x-auto md:overflow-visible">
+    <h2 class="text-2xl font-bold mb-10 text-center">Estudiante</h2>
+    <nav class="flex flex-col gap-4">
+      <a href="estudiante.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏠</span> Inicio
+      </a>
+      <a href="calificaciones.html" class="bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>📊</span> Calificaciones
+      </a>
+      <!-- Eliminada opción Horario -->
+      <a href="perfilestudiante.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>👤</span> Perfil
+      </a>
+      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2 cerrar-sesion">
+        <span>🚪</span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 w-full flex flex-col overflow-x-auto">
+    <!-- Barra superior -->
+    <header class="flex justify-between items-center px-8 py-4 bg-blue-800 text-white shadow">
+      <div class="flex items-center gap-3">
+        <img src="img/Logo.png" alt="Logo" class="h-10 w-10" />
+        <span class="text-xl font-bold">Gaspar Marcano</span>
+      </div>
+      <div class="text-right">
+        <p class="font-bold estudiante-username">Estudiante</p>
+      </div>
+    </header>
+
+    <!-- Contenido -->
+    <section class="p-4 md:p-8 flex-1 w-full overflow-auto">
+      <div class="bg-white rounded-xl p-4 md:p-6 shadow-md min-h-[300px] overflow-x-auto w-full">
+        <h1 class="text-2xl font-bold mb-2 flex items-center gap-4">
+          Calificaciones
+          <span class="text-base font-normal text-gray-600">(1er Año - Sección B)</span>
+        </h1>
+
+        <table class="min-w-full border border-gray-300 rounded-lg overflow-hidden">
+          <thead class="bg-blue-800 text-white">
+            <tr>
+              <th class="p-3 border border-blue-700">Materia</th>
+              <th class="p-3 border border-blue-700">Lapso 1</th>
+              <th class="p-3 border border-blue-700">Lapso 2</th>
+              <th class="p-3 border border-blue-700">Lapso 3</th>
+              <th class="p-3 border border-blue-700">NOTA FINAL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border border-gray-300 px-4 py-2 font-medium">Matemáticas</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">15</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-red-100 text-red-800 font-semibold">9</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">13</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">12.3</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 px-4 py-2 font-medium">Historia</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">12</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">14</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">17</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">14.3</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 px-4 py-2 font-medium">Inglés</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">19</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">18</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">20</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">19.0</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 px-4 py-2 font-medium">Ciencias</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-red-100 text-red-800 font-semibold">8</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">12</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">14</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">11.3</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 px-4 py-2 font-medium">Educación Física</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">16</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">15</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">18</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">16.3</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 px-4 py-2 font-medium">Arte</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">14</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-red-100 text-red-800 font-semibold">7</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">13</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">11.3</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 px-4 py-2 font-medium">Geografía</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">18</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">17</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">16</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">17.0</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 px-4 py-2 font-medium">Filosofía</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-red-100 text-red-800 font-semibold">5</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-red-100 text-red-800 font-semibold">6</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-green-100 text-green-800 font-semibold">12</td>
+              <td class="border border-gray-300 px-4 py-2 text-center bg-red-100 text-red-800 font-semibold">7.7</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="mt-4 text-gray-700 italic">Nota: Se considera aprobado con 10 o más puntos.</p>
+      </div>
+    </section>
+  </main>
+</body>
+<script src="estudiante.js"></script>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inicio de Sesión - Gaspar Marcano</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontSize: {
+            '5xl': '3rem',
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-r from-blue-600 to-blue-400 min-h-screen relative">
+
+  <!-- Botón de volver -->
+  <a href="principal.html" class="absolute top-4 right-4 flex items-center text-white hover:text-blue-200 transition">
+    <i class="ti ti-door-enter text-2xl mr-1"></i>
+    Volver
+  </a>
+
+  <!-- Contenedor principal -->
+  <div class="flex flex-col md:flex-row items-center justify-center min-h-screen gap-10 px-6">
+
+    <!-- Logo e Identidad -->
+    <div class="flex flex-col items-center text-center mb-10 md:mb-0">
+      <img src="img/Logo.png" alt="Logo Gaspar Marcano" class="w-40 h-40 mb-4" />
+      <h2 class="text-white text-xl  md:text-2xl font-light">Complejo Educativo</h2>
+      <h1 class="text-white text-5xl md:text-6xl font-bold italic drop-shadow">Gaspar Marcano</h1>
+    </div>
+
+    <!-- Formulario de inicio de sesión -->
+    <div class="bg-white rounded-lg shadow-md p-8 w-full max-w-md">
+      <h2 class="text-2xl font-bold text-center text-blue-700 mb-6">Iniciar Sesión</h2>
+      <div id="login-error" class="hidden mb-4 p-3 rounded bg-red-100 text-red-700 text-center"></div>
+      <form>
+        <!-- Email -->
+        <div class="mb-4">
+          <label for="email" class="block text-gray-700 font-medium mb-1">Correo electrónico</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="correo@ejemplo.com"
+            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <!-- Contraseña -->
+        <div class="mb-4">
+          <label for="password" class="block text-gray-700 font-medium mb-1">Contraseña</label>
+          <div class="relative">
+            <input
+              type="password"
+              id="password"
+              class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <label class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center cursor-pointer select-none text-gray-500 text-sm">
+              <input type="checkbox" id="toggle-password" class="mr-1 align-middle" /> Mostrar
+            </label>
+          </div>
+        </div>
+        <!-- Recordarme + Olvidaste -->
+        <div class="flex items-center justify-between mb-6 text-sm">
+          <label class="flex items-center">
+            <input type="checkbox" class="mr-2" />
+            Recuérdame
+          </label>
+          <a href="#" class="text-blue-600 hover:underline">¿Olvidaste tu contraseña?</a>
+        </div>
+        <!-- Botón Entrar -->
+        <button
+          type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded transition"
+        >
+          Entrar
+        </button>
+      </form>
+    </div>
+
+  </div>
+  <script src="login.js"></script>
+  <script>
+    document.getElementById('toggle-password').addEventListener('change', function() {
+      const pwd = document.getElementById('password');
+      pwd.type = this.checked ? 'text' : 'password';
+    });
+  </script>
+</body>
+</html>

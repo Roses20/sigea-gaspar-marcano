@@ -32,6 +32,11 @@ const UsuarioSchema = {
     rol: {
         allowNull: false,
         type: DataTypes.STRING
+    },
+    email: {
+        allowNull: false,
+        unique: true,
+        type: DataTypes.STRING
     }
 }
 

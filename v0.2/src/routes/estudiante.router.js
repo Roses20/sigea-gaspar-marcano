@@ -80,15 +80,22 @@ router.get('/perfil', checkRole(['estudiante']), async (req, res, next) => {
 // Estudiante puede modificar sus datos de perfil
 router.put('/perfil', checkRole(['estudiante']), async (req, res, next) => {
     try {
-        const { username, password } = req.body;
-        const estudiante = await Usuario.findByPk(req.user.id);
-        if (!estudiante) {
-            return res.status(404).json({ message: 'Usuario no encontrado' });
+        const { nombreCompleto, email, telefono, ano, seccion, direccion, fechaNacimiento } = req.body;
+        const usuario = await Usuario.findByPk(req.user.id);
+        const estudiante = await Estudiante.findByPk(req.user.id);
+        if (!usuario || !estudiante) {
+            return res.status(404).json({ message: 'Usuario o estudiante no encontrado' });
         }
-
-        if (username) estudiante.username = username;
-        if (password) estudiante.password = await hashPassword(password);
-
+        // Actualizar usuario
+        if (email) usuario.email = email;
+        if (nombreCompleto) usuario.nombre = nombreCompleto;
+        await usuario.save();
+        // Actualizar estudiante
+        if (telefono) estudiante.telefono = telefono;
+        if (ano) estudiante.anio = ano;
+        if (seccion) estudiante.seccion = seccion;
+        if (direccion) estudiante.direccion = direccion;
+        if (fechaNacimiento) estudiante.fecha_nacimiento = fechaNacimiento;
         await estudiante.save();
         res.json({ message: 'Perfil actualizado correctamente.' });
     } catch (error) {

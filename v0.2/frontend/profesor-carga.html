@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cargar Notas - Profesor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex">
+
+  <!-- Menú lateral -->
+  <aside class="w-64 bg-blue-800 text-white flex flex-col py-6 px-4">
+    <h2 class="text-2xl font-bold mb-10 text-center">Profesor</h2>
+    <nav class="flex flex-col gap-4">
+      <a href="profesor-inicio.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏠</span> Inicio
+      </a>
+      <a href="profesor-secciones.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏫</span> Secciones
+      </a>
+      <a href="profesor-carga.html" class="bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>📝</span> Cargar notas
+      </a>
+      <a href="profesor-perfil.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>👤</span> Perfil
+      </a>
+      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2 cerrar-sesion">
+        <span>🚪</span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1">
+    <!-- Barra superior -->
+    <header class="flex justify-between items-center px-8 py-4 bg-blue-800 text-white shadow">
+      <div class="flex items-center gap-3">
+        <img src="img/Logo.png" alt="Logo" class="h-10 w-10">
+        <span class="text-xl font-bold">Gaspar Marcano</span>
+      </div>
+      <div class="text-right">
+        <p class="font-bold profesor-username">Profesor</p>
+      </div>
+    </header>
+
+    <!-- Contenido -->
+    <section class="p-8">
+      <div class="bg-white rounded-xl p-6 shadow-md max-w-3xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">Carga de Notas</h1>
+
+        <form class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Año</label>
+              <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <option>1ro</option>
+                <option>2do</option>
+                <option>3ro</option>
+                <option selected>4to</option>
+                <option>5to</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Sección</label>
+              <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <option>A</option>
+                <option selected>B</option>
+                <option>C</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Lapso</label>
+              <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <option>1er Lapso</option>
+                <option>2do Lapso</option>
+                <option>3er Lapso</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto mt-6">
+            <table class="min-w-full table-auto border border-gray-300">
+              <thead class="bg-blue-100">
+                <tr>
+                  <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Estudiante</th>
+                  <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Materia</th>
+                  <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Nota (1-20)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border px-4 py-2">Pérez, Juan</td>
+                  <td class="border px-4 py-2">Matemática</td>
+                  <td class="border px-4 py-2">
+                    <input type="number" min="1" max="20" class="w-full border rounded px-2 py-1" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border px-4 py-2">González, María</td>
+                  <td class="border px-4 py-2">Matemática</td>
+                  <td class="border px-4 py-2">
+                    <input type="number" min="1" max="20" class="w-full border rounded px-2 py-1" />
+                  </td>
+                </tr>
+                <!-- Puedes duplicar filas según sea necesario -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="text-right mt-6">
+            <button type="submit" class="bg-blue-800 text-white px-6 py-2 rounded hover:bg-blue-700">
+              Guardar Notas
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+</body>
+<script src="profesor.js"></script>
+</html>

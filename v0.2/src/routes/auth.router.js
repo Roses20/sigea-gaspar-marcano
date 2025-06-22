@@ -8,9 +8,9 @@ const router = express.Router();
 // Endpoint para registro de usuarios
 router.post('/register', async (req, res, next) => {
     try {
-        const { username, password, rol } = req.body;
+        const { email, password, rol } = req.body;
         const hashedPassword = await hashPassword(password);
-        const newUser = await models.Usuario.create({ username, password: hashedPassword, rol });
+        const newUser = await models.Usuario.create({ email, password: hashedPassword, rol });
         res.status(201).json(newUser);
     } catch (error) {
         next(error);
@@ -21,14 +21,14 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', loginRateLimiter, async (req, res, next) => {
     try {
         console.log('Request body:', req.body); // Depurar el cuerpo de la solicitud
-        const { username, password } = req.body;
+        const { email, password } = req.body;
 
         // Validación de campos obligatorios
-        if (!username || !password) {
-            return res.status(400).json({ message: 'Los campos username y password son obligatorios' });
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Los campos email y password son obligatorios' });
         }
 
-        const user = await models.Usuario.findOne({ where: { username } });
+        const user = await models.Usuario.findOne({ where: { email } });
         if (!user) {
             return res.status(401).json({ message: 'Usuario no encontrado' });
         }
@@ -36,8 +36,17 @@ router.post('/login', loginRateLimiter, async (req, res, next) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Contraseña incorrecta' });
         }
-        const token = generateToken({ id: user.id, username: user.username, rol: user.rol });
-        res.json({ token });
+        const token = generateToken({ id: user.id, email: user.email, rol: user.rol });
+        // Preparar objeto usuario sin contraseña
+        const usuarioSinPassword = {
+            id: user.id,
+            email: user.email,
+            rol: user.rol,
+            username: user.username,
+            nombre: user.nombre || '',
+            apellido: user.apellido || ''
+        };
+        res.json({ token, usuario: usuarioSinPassword });
     } catch (error) {
         next(error);
     }

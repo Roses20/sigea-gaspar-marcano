@@ -50,13 +50,13 @@ DB_PASSWORD='tu_contraseña'
 DB_HOST='localhost'
 DB_PORT='5432'
 DB_NAME='nombre_base_datos'
-DATABASE_URL='postgres://postgres:tu_contraseña@localhost:5432/nombre_base_datos'
+# DATABASE_URL='postgres://postgres:tu_contraseña@localhost:5432/nombre_base_datos'  # Opcional
 JWT_SECRET=tu_clave_secreta
 ```
 
 - `PORT`: Puerto en el que se ejecutará el servidor (por defecto 3000).
 - `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_NAME`: Datos de conexión a la base de datos PostgreSQL.
-- `DATABASE_URL`: Cadena de conexión completa a tu base de datos PostgreSQL (usada por Sequelize).
+- `DATABASE_URL`: (Opcional) Cadena de conexión completa a tu base de datos PostgreSQL. Si no la defines, el sistema la generará automáticamente usando los datos individuales.
 - `JWT_SECRET`: Clave secreta para firmar y verificar los tokens JWT.
 
 ## Uso

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inicio - Profesor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col md:flex-row">
+
+  <!-- Menú lateral -->
+  <aside class="w-full md:w-64 bg-blue-800 text-white flex flex-row md:flex-col py-4 md:py-6 px-2 md:px-4 overflow-x-auto md:overflow-visible">
+    <h2 class="text-2xl font-bold mb-10 text-center">Profesor</h2>
+    <nav class="flex flex-col gap-4">
+      <a href="profesor-inicio.html" class="bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏠</span> Inicio
+      </a>
+      <a href="profesor-secciones.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏫</span> Secciones
+      </a>
+      <a href="profesor-perfil.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>👤</span> Perfil
+      </a>
+      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2 cerrar-sesion">
+        <span>🚪</span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 w-full overflow-x-auto">
+    <!-- Barra superior -->
+    <header class="flex justify-between items-center px-8 py-4 bg-blue-800 text-white shadow">
+      <div class="flex items-center gap-3">
+        <img src="img/Logo.png" alt="Logo" class="h-10 w-10">
+        <span class="text-xl font-bold">Gaspar Marcano</span>
+      </div>
+      <div class="text-right">
+        <p class="font-bold profesor-username">Prof. Ana Martínez</p>
+      </div>
+    </header>
+
+    <!-- Contenido -->
+    <section class="p-4 md:p-8 w-full">
+      <div class="bg-white rounded-xl p-4 md:p-6 shadow-md w-full max-w-full">
+        <h1 class="text-2xl font-bold mb-4 profesor-bienvenida">Bienvenida, Prof. Ana Martínez</h1>
+        <p class="text-gray-700">Este es tu panel de control. Desde aquí puedes revisar tus secciones, cargar notas y consultar tu perfil docente.</p>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-blue-100 p-4 rounded shadow">
+            <h2 class="text-lg font-semibold text-blue-800">Materias asignadas</h2>
+            <p class="text-gray-700">2</p>
+          </div>
+          <div class="bg-blue-100 p-4 rounded shadow">
+            <h2 class="text-lg font-semibold text-blue-800">Salario xd</h2>
+            <p class="text-gray-700">10 bolos (No se que colocar)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+</body>
+<script src="profesor.js"></script>
+</html>

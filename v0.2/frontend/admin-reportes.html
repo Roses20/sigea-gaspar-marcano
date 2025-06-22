@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reportes - Administrador</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex">
+
+  <!-- Menú lateral -->
+  <aside class="w-64 bg-blue-800 text-white flex flex-col py-6 px-4">
+    <h2 class="text-2xl font-bold mb-10 text-center">Administrador</h2>
+    <nav class="flex flex-col gap-4">
+      <a href="admin-inicio.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏠</span> Inicio
+      </a>
+      <a href="admin-usuarios.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>👥</span> Usuarios
+      </a>
+      <a href="admin-reportes.html" class="bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>📊</span> Reportes
+      </a>
+      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2">
+        <span>🚪</span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 overflow-auto">
+    <header class="flex justify-between items-center px-8 py-4 bg-blue-800 text-white shadow">
+      <div class="flex items-center gap-3">
+        <img src="img/Logo.png" alt="Logo" class="h-10 w-10" />
+        <span class="text-xl font-bold">Gaspar Marcano</span>
+      </div>
+      <div class="text-right">
+        <p class="font-bold admin-username">Administrador</p>
+      </div>
+    </header>
+
+    <section class="p-8 max-w-5xl mx-auto">
+      <h1 class="text-2xl font-bold mb-6">Reportes</h1>
+
+      <div class="bg-white rounded-xl p-6 shadow space-y-6">
+        <div>
+          <h2 class="text-lg font-semibold text-blue-800 mb-2">Reporte de asistencia</h2>
+          <p class="text-gray-700">Consulta las estadísticas de asistencia de profesores y estudiantes.</p>
+          <button class="mt-2 bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md">Ver reporte</button>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-semibold text-blue-800 mb-2">Reporte de rendimiento académico</h2>
+          <p class="text-gray-700">Analiza el rendimiento general de los estudiantes por año y sección.</p>
+          <button class="mt-2 bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md">Ver reporte</button>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-semibold text-blue-800 mb-2">Reporte de usuarios registrados</h2>
+          <p class="text-gray-700">Listado y estadísticas de profesores y estudiantes registrados.</p>
+          <button class="mt-2 bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md">Ver reporte</button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+</body>
+<script src="admin.js"></script>
+</html>

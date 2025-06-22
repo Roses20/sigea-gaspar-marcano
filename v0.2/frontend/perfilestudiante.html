@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panel Estudiante - Perfil</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col md:flex-row">
+  <!-- Menú lateral -->
+  <aside class="w-full md:w-64 bg-blue-800 text-white flex flex-row md:flex-col py-4 md:py-6 px-2 md:px-4 overflow-x-auto md:overflow-visible">
+    <h2 class="text-2xl font-bold mb-10 text-center">Estudiante</h2>
+    <nav class="flex flex-col gap-4">
+      <a href="estudiante.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏠</span> Inicio
+      </a>
+      <a href="calificaciones.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>📊</span> Calificaciones
+      </a>
+      <!-- Eliminada opción Horario -->
+      <a href="perfilestudiante.html" class="bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>👤</span> Perfil
+      </a>
+      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2 cerrar-sesion">
+        <span>🚪</span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+  <!-- Contenido principal -->
+  <main class="flex-1 w-full flex flex-col overflow-x-auto">
+    <!-- Barra superior -->
+    <header class="flex justify-between items-center px-8 py-4 bg-blue-800 text-white shadow">
+      <div class="flex items-center gap-3">
+        <img src="img/Logo.png" alt="Logo" class="h-10 w-10" />
+        <span class="text-xl font-bold">Gaspar Marcano</span>
+      </div>
+      <div class="text-right">
+        <p class="font-bold estudiante-username">Estudiante</p>
+      </div>
+    </header>
+    <!-- Contenido -->
+    <section class="p-4 md:p-8 flex-1 w-full overflow-auto">
+      <div class="bg-white rounded-xl p-4 md:p-6 shadow-md max-w-xl mx-auto w-full">
+        <h1 class="text-2xl font-bold mb-6 flex items-center gap-4">
+          Perfil
+          <span class="text-base font-normal text-gray-600">(1er Año - Sección B)</span>
+        </h1>
+        <dl class="grid grid-cols-1 gap-4 md:gap-6 text-gray-700">
+          <div>
+            <dt class="font-semibold">Nombre Completo:</dt>
+            <dd><input type="text" class="estudiante-nombre w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: Juan Pérez" /></dd>
+          </div>
+          <div>
+            <dt class="font-semibold">Correo Electrónico:</dt>
+            <dd><input type="email" class="estudiante-correo w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: juanperez@email.com" /></dd>
+          </div>
+          <div>
+            <dt class="font-semibold">Teléfono:</dt>
+            <dd><input type="text" class="estudiante-telefono w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: 0412-1234567 o +58 412-1234567" /></dd>
+          </div>
+          <div>
+            <dt class="font-semibold">Año:</dt>
+            <dd><input type="text" class="estudiante-ano w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: 1er año" /></dd>
+          </div>
+          <div>
+            <dt class="font-semibold">Sección:</dt>
+            <dd><input type="text" class="estudiante-seccion w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: B" /></dd>
+          </div>
+          <div>
+            <dt class="font-semibold">Dirección:</dt>
+            <dd><input type="text" class="estudiante-direccion w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: Calle 1, Casa 2" /></dd>
+          </div>
+          <div>
+            <dt class="font-semibold">Fecha de Nacimiento:</dt>
+            <dd><input type="date" class="estudiante-fecha w-full border rounded px-2 py-1" disabled /></dd>
+          </div>
+          <div>
+            <dt class="font-semibold">Cédula:</dt>
+            <dd><input type="text" class="estudiante-cedula w-full border rounded px-2 py-1" disabled placeholder="Ejemplo: V-12345678" /></dd>
+          </div>
+        </dl>
+        <div class="flex gap-4 mt-6">
+          <button id="editar-datos" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded shadow-md transition">Editar</button>
+          <button id="guardar-datos" class="bg-green-700 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded shadow-md transition hidden">Guardar</button>
+          <button id="cancelar-edicion" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded shadow-md transition hidden">Cancelar</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+<script src="estudiante.js"></script>
+</html>

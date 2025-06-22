@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cargar Notas - Profesor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  function toggleTabla(id) {
+    const tabla = document.getElementById(id);
+    tabla.classList.toggle('hidden');
+  }
+
+  function calcularNotaFinal(rowId) {
+    const l1 = parseFloat(document.getElementById(`lapso1-${rowId}`).value);
+    const l2 = parseFloat(document.getElementById(`lapso2-${rowId}`).value);
+    const l3 = parseFloat(document.getElementById(`lapso3-${rowId}`).value);
+    
+    if ([l1, l2, l3].some(val => isNaN(val) || val < 1 || val > 20)) {
+      document.getElementById(`final-${rowId}`).textContent = "—";
+      document.getElementById(`final-${rowId}`).classList.remove('text-green-600', 'text-red-600');
+      return;
+    }
+
+    const promedio = ((l1 + l2 + l3) / 3).toFixed(2);
+    const finalTd = document.getElementById(`final-${rowId}`);
+    finalTd.textContent = promedio;
+    finalTd.classList.remove('text-green-600', 'text-red-600');
+    finalTd.classList.add(promedio >= 10 ? 'text-green-600' : 'text-red-600');
+  }
+</script>
+
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col md:flex-row">
+
+  <!-- Menú lateral -->
+  <aside class="w-full md:w-64 bg-blue-800 text-white flex flex-row md:flex-col py-4 md:py-6 px-2 md:px-4 overflow-x-auto md:overflow-visible">
+    <h2 class="text-2xl font-bold mb-10 text-center">Profesor</h2>
+    <nav class="flex flex-col gap-4">
+      <a href="profesor-inicio.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏠</span> Inicio
+      </a>
+      <a href="profesor-secciones.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>🏫</span> Secciones
+      </a>
+      <a href="profesor-perfil.html" class="hover:bg-blue-700 px-4 py-2 rounded flex items-center gap-2">
+        <span>👤</span> Perfil
+      </a>
+      <a href="#" class="mt-auto hover:bg-red-600 px-4 py-2 rounded flex items-center gap-2 cerrar-sesion">
+        <span>🚪</span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 w-full overflow-x-auto">
+    <!-- Barra superior -->
+    <header class="flex justify-between items-center px-8 py-4 bg-blue-800 text-white shadow">
+      <div class="flex items-center gap-3">
+        <img src="img/Logo.png" alt="Logo" class="h-10 w-10">
+        <span class="text-xl font-bold">Gaspar Marcano</span>
+      </div>
+      <div class="text-right">
+        <p class="font-bold profesor-username">Profesor</p>
+      </div>
+    </header>
+
+    <!-- Contenido -->
+    <section class="p-4 md:p-8 w-full space-y-6">
+      <h1 class="text-2xl font-bold mb-4">Secciones y Materias</h1>
+
+      <!-- Tarjeta de sección y materia -->
+      <div class="bg-white shadow-md rounded-lg p-4 cursor-pointer hover:bg-blue-50" onclick="toggleTabla('tabla1')">
+        <p class="text-lg font-semibold">Matemática - 4to Año - Sección B</p>
+      </div>
+
+      <!-- Tabla oculta inicialmente -->
+      <div id="tabla1" class="hidden">
+        <div class="overflow-x-auto bg-white rounded-lg shadow p-4 w-full">
+          <table class="min-w-full table-auto border border-gray-300">
+            <thead class="bg-blue-100">
+                <tr>
+                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Cédula</th>
+                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Nombres</th>
+                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Apellidos</th>
+                <th class="px-4 py-2 text-sm font-semibold text-gray-700">Lapso 1</th>
+                <th class="px-4 py-2 text-sm font-semibold text-gray-700">Lapso 2</th>
+                <th class="px-4 py-2 text-sm font-semibold text-gray-700">Lapso 3</th>
+                <th class="px-4 py-2 text-sm font-semibold text-gray-700">Nota Final</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td class="border px-4 py-2">V-27938415</td>
+                <td class="border px-4 py-2">Juan</td>
+                <td class="border px-4 py-2">Pérez</td>
+                <td class="border px-4 py-2">
+                    <input id="lapso1-1" type="number" min="1" max="20" class="w-16 border rounded px-2 py-1" oninput="calcularNotaFinal(1)" />
+                </td>
+                <td class="border px-4 py-2">
+                    <input id="lapso2-1" type="number" min="1" max="20" class="w-16 border rounded px-2 py-1" oninput="calcularNotaFinal(1)" />
+                </td>
+                <td class="border px-4 py-2">
+                    <input id="lapso3-1" type="number" min="1" max="20" class="w-16 border rounded px-2 py-1" oninput="calcularNotaFinal(1)" />
+                </td>
+                <td class="border px-4 py-2 text-center font-semibold" id="final-1">—</td>
+                </tr>
+                <tr>
+                <td class="border px-4 py-2">V-26102893</td>
+                <td class="border px-4 py-2">María</td>
+                <td class="border px-4 py-2">González</td>
+                <td class="border px-4 py-2">
+                    <input id="lapso1-2" type="number" min="1" max="20" class="w-16 border rounded px-2 py-1" oninput="calcularNotaFinal(2)" />
+                </td>
+                <td class="border px-4 py-2">
+                    <input id="lapso2-2" type="number" min="1" max="20" class="w-16 border rounded px-2 py-1" oninput="calcularNotaFinal(2)" />
+                </td>
+                <td class="border px-4 py-2">
+                    <input id="lapso3-2" type="number" min="1" max="20" class="w-16 border rounded px-2 py-1" oninput="calcularNotaFinal(2)" />
+                </td>
+                <td class="border px-4 py-2 text-center font-semibold" id="final-2">—</td>
+                </tr>
+            </tbody>
+            </table>
+          </div>
+
+          <div class="text-right mt-4 flex justify-end gap-4">
+                <button class="bg-blue-800 text-white px-6 py-2 rounded hover:bg-blue-700">
+                    Guardar Notas
+                </button>
+                <button class="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-500">
+                    Descargar PDF
+                </button>
+            </div>
+
+        </div>
+      </div>
+
+
+      <!-- Otro ejemplo -->
+<div class="bg-white shadow-md rounded-lg p-4 cursor-pointer hover:bg-blue-50" onclick="toggleTabla('tabla2')">
+  <p class="text-lg font-semibold">Castellano - 5to Año - Sección A</p>
+</div>
+
+<div id="tabla2" class="hidden">
+  <div class="overflow-x-auto bg-white rounded-lg shadow p-4 w-full">
+                        <table class="min-w-full table-auto border border-gray-300">
+                        <thead class="bg-blue-100">
+                            <tr>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Cédula</th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Nombres</th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Apellidos</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-gray-700">Lapso 1</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-gray-700">Lapso 2</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-gray-700">Lapso 3</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-gray-700">Nota Final</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <td class="border px-4 py-2">V-31938415</td>
+                            <td class="border px-4 py-2">Carlos</td>
+                            <td class="border px-4 py-2">Pérez</td>
+                            <td class="border px-4 py-2">
+                                <input id="lapso1-3" type="number" min="1" max="20" class="w-16 border rounded px-2 py-1" oninput="calcularNotaFinal(3)" />
+                            </td>
+                            <td class="border px-4 py-2">
+                                <input id="lapso2-3" type="number" min="1" max="20" class="w-16 border rounded px-2 py-1" oninput="calcularNotaFinal(3)" />
+                            </td>
+                            <td class="border px-4 py-2">
+                                <input id="lapso3-3" type="number" min="1" max="20" class="w-16 border rounded px-2 py-1" oninput="calcularNotaFinal(3)" />
+                            </td>
+                            <td class="border px-4 py-2 text-center font-semibold" id="final-3">—</td>
+                            </tr>
+                        </tbody>
+                        </table>
+     <div class="text-right mt-4 flex justify-end gap-4">
+                <button class="bg-blue-800 text-white px-6 py-2 rounded hover:bg-blue-700">
+                    Guardar Notas
+                </button>
+                <button class="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-500">
+                    Descargar PDF
+                </button>
+            </div>
+  </div>
+</div>
+
+
+
+    </section>
+  </main>
+
+</body>
+<script src="profesor.js"></script>
+</html>
