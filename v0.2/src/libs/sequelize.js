@@ -22,7 +22,8 @@ const sequelize = new Sequelize(databaseUrl, {
     logging: false,
 });
 
-sequelize.sync();
 setupModels(sequelize);
 
-module.exports = sequelize;
+const models = sequelize.models;
+
+module.exports = { sequelize, models };

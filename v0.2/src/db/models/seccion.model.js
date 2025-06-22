@@ -28,7 +28,7 @@ const SeccionSchema = {
         allowNull: false,
         type: DataTypes.INTEGER,
         references: {
-            model: 'periodo',
+            model: 'periodos', // Debe coincidir con el nombre real de la tabla
             key: 'id'
         }
     }

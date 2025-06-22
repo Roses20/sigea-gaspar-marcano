@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config({ path: './.env' });
 const cors = require('cors');
+const path = require('path');
 
 // Centraliza la carga de las variables de entorno
 module.exports = {
@@ -18,6 +19,9 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Servir archivos estáticos del frontend
+app.use(express.static(path.join(__dirname, '../frontend')));
+
 app.get('/', (req, res) => {
     console.log('Received a GET request');
     console.log('Port ===>', port);
@@ -33,6 +37,8 @@ const usuarioRoutes = require('./routes/usuario.router');
 const profesorMateriaRoutes = require('./routes/profesor_materia.router');
 const seccionRoutes = require('./routes/seccion.router');
 const authRoutes = require('./routes/auth.router');
+const dashboardRoutes = require('./routes/dashboard.router');
+const reportesRoutes = require('./routes/reportes.router');
 
 app.use('/api/estudiantes', estudianteRoutes);
 app.use('/api/profesores', profesorRoutes);
@@ -43,6 +49,8 @@ app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/profesor-materias', profesorMateriaRoutes);
 app.use('/api/secciones', seccionRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/reportes', reportesRoutes);
 
 // Inicia el servidor
 app.listen(port, () => {

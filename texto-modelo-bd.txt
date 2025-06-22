@@ -1,0 +1,46 @@
+-- Creación de la tabla Estudiante
+CREATE TABLE Estudiante (
+    cedula VARCHAR(20) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    correo VARCHAR(100) UNIQUE NOT NULL,
+    telefono VARCHAR(20),
+    direccion VARCHAR(255),
+    anio INT NOT NULL,
+    seccion VARCHAR(10) NOT NULL
+);
+
+-- Creación de la tabla Profesor
+CREATE TABLE Profesor (
+    cedula VARCHAR(20) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    correo VARCHAR(100) UNIQUE NOT NULL,
+    telefono VARCHAR(20),
+    direccion VARCHAR(255)
+);
+
+-- Creación de la tabla Materia
+CREATE TABLE Materia (
+    codigo_materia VARCHAR(20) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    anio INT NOT NULL
+);
+
+-- Creación de la tabla de unión Profesor_Materia (Muchos a Muchos)
+CREATE TABLE Profesor_Materia (
+    profesor_cedula VARCHAR(20),
+    materia_codigo VARCHAR(20),
+    PRIMARY KEY (profesor_cedula, materia_codigo),
+    FOREIGN KEY (profesor_cedula) REFERENCES Profesor(cedula) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (materia_codigo) REFERENCES Materia(codigo_materia) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Creación de la tabla de unión Estudiante_Materia (Muchos a Muchos)
+CREATE TABLE Estudiante_Materia (
+    estudiante_cedula VARCHAR(20),
+    materia_codigo VARCHAR(20),
+    PRIMARY KEY (estudiante_cedula, materia_codigo),
+    FOREIGN KEY (estudiante_cedula) REFERENCES Estudiante(cedula) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (materia_codigo) REFERENCES Materia(codigo_materia) ON DELETE CASCADE ON UPDATE CASCADE
+);

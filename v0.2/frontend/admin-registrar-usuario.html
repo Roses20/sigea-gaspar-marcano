@@ -93,6 +93,7 @@
             <option value="">Selecciona un tipo</option>
             <option value="profesor">Profesor</option>
             <option value="estudiante">Estudiante</option>
+            <option value="admin">Administrador</option>
           </select>
         </div>
         <div>
@@ -112,6 +113,18 @@
           <input type="password" id="password" name="password" required minlength="6" placeholder="Mínimo 6 caracteres" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
         </div>
         <div id="extra-fields"></div>
+        <div id="id-estudiante-field" style="display:none;">
+          <label for="id_estudiante" class="block text-sm font-medium">ID Estudiante</label>
+          <input type="text" id="id_estudiante" name="id_estudiante" placeholder="Ej: ST001" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+        <div id="id-profesor-field" style="display:none;">
+          <label for="id_profesor" class="block text-sm font-medium">ID Profesor</label>
+          <input type="text" id="id_profesor" name="id_profesor" placeholder="Ej: PR001" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+        <div id="codigo-materia-field" style="display:none;">
+          <label for="codigo_materia" class="block text-sm font-medium">Código Materia</label>
+          <input type="text" id="codigo_materia" name="codigo_materia" placeholder="Ej: MAT101" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+        </div>
         <button type="submit" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded shadow-md transition-btn">Registrar</button>
         <div class="flex flex-wrap gap-4 mb-4 justify-center">
           <a href="admin-usuarios.html" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md transition-btn">Volver a usuarios</a>

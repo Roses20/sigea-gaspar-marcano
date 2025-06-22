@@ -20,6 +20,8 @@ router.post('/register', async (req, res, next) => {
 // Endpoint para inicio de sesión
 router.post('/login', loginRateLimiter, async (req, res, next) => {
     try {
+        // Extraer email y password del body
+        const { email, password } = req.body;
         // Validación de campos obligatorios
         if (!email || !password) {
             return res.status(400).json({ message: 'Los campos email y password son obligatorios' });

@@ -4,7 +4,10 @@ const {
     getEstudiante,
     createEstudiante,
     updateEstudiante,
-    deleteEstudiante
+    deleteEstudiante,
+    getMaterias,
+    asignarMateria,
+    quitarMateria
 } = require('../controllers/estudiante.controller');
 const { authenticateToken, checkRole } = require('../middleware/auth.middleware');
 const { body, param, validationResult } = require('express-validator');
@@ -40,16 +43,16 @@ router.post('/', checkRole(['admin']), [
 router.get('/', checkRole(['admin', 'profesor']), getEstudiantes); // Proteger la ruta
 
 // Estudiante solo puede ver sus propios datos
-router.get('/:id', checkRole(['admin', 'profesor', 'estudiante']), async (req, res, next) => {
-    if (req.user.rol === 'estudiante' && req.user.id !== parseInt(req.params.id)) {
+router.get('/:id_estudiante', checkRole(['admin', 'profesor', 'estudiante']), async (req, res, next) => {
+    if (req.user.rol === 'estudiante' && req.user.id !== parseInt(req.params.id_estudiante)) {
         return res.status(403).json({ message: 'Acceso denegado' });
     }
     getEstudiante(req, res, next);
 }); // Proteger la ruta
 
 // Solo admin y profesor pueden modificar datos de estudiantes
-router.put('/:id', checkRole(['admin', 'profesor']), [
-    param('id').isInt().withMessage('El ID debe ser un número entero'),
+router.put('/:id_estudiante', checkRole(['admin', 'profesor']), [
+    param('id_estudiante').isInt().withMessage('El ID debe ser un número entero'),
     body('nombre').optional().isString().withMessage('El nombre debe ser un texto'),
     body('apellido').optional().isString().withMessage('El apellido debe ser un texto'),
     body('cedula').optional().isString().withMessage('La cédula debe ser un texto'),
@@ -62,7 +65,7 @@ router.put('/:id', checkRole(['admin', 'profesor']), [
 ], updateEstudiante); // Proteger la ruta
 
 // Solo admin puede eliminar estudiantes
-router.delete('/:id', checkRole(['admin']), deleteEstudiante); // Proteger la ruta
+router.delete('/:id_estudiante', checkRole(['admin']), deleteEstudiante); // Proteger la ruta
 
 // Estudiante puede ver sus datos personales
 router.get('/perfil', checkRole(['estudiante']), async (req, res, next) => {
@@ -102,5 +105,10 @@ router.put('/perfil', checkRole(['estudiante']), async (req, res, next) => {
         next(error);
     }
 });
+
+// Materias del estudiante
+router.get('/:id_estudiante/materias', checkRole(['admin', 'profesor', 'estudiante']), getMaterias);
+router.post('/:id_estudiante/materias', checkRole(['admin', 'profesor']), asignarMateria);
+router.delete('/:id_estudiante/materias/:codigo_materia', checkRole(['admin', 'profesor']), quitarMateria);
 
 module.exports = router;

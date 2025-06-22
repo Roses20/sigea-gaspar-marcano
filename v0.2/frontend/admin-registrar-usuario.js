@@ -6,10 +6,19 @@ document.addEventListener('DOMContentLoaded', function () {
   const feedback = document.getElementById('form-feedback');
   const extraFields = document.getElementById('extra-fields');
   const rolSelect = document.getElementById('rol');
+  const idEstudianteField = document.getElementById('id-estudiante-field');
+  const idProfesorField = document.getElementById('id-profesor-field');
+  const codigoMateriaField = document.getElementById('codigo-materia-field');
 
-  rolSelect.addEventListener('change', function () {
+  function updateFields() {
+    const rol = rolSelect.value;
+    // Hide all by default
+    idEstudianteField.style.display = 'none';
+    idProfesorField.style.display = 'none';
+    codigoMateriaField.style.display = 'none';
     extraFields.innerHTML = '';
-    if (this.value === 'estudiante') {
+    if (rol === 'estudiante') {
+      idEstudianteField.style.display = '';
       extraFields.innerHTML = `
         <div>
           <label for="cedula" class="block text-sm font-medium">Cédula</label>
@@ -20,15 +29,21 @@ document.addEventListener('DOMContentLoaded', function () {
           <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
         </div>
       `;
-    } else if (this.value === 'profesor') {
+    } else if (rol === 'profesor') {
+      idProfesorField.style.display = '';
       extraFields.innerHTML = `
         <div>
           <label for="especialidad" class="block text-sm font-medium">Especialidad</label>
           <input type="text" id="especialidad" name="especialidad" required placeholder="Ej: Matemáticas" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
         </div>
       `;
+    } else if (rol === 'admin') {
+      // No extra fields, no ID fields
     }
-  });
+  }
+
+  rolSelect.addEventListener('change', updateFields);
+  updateFields(); // On load
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();

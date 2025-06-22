@@ -1,50 +1,48 @@
 const { Model, DataTypes } = require('sequelize');
 
-const PROFESOR = 'profesor';
-
 class Profesor extends Model {
-    static config(sequelize) {
-        return {
-            sequelize,
-            tableName: PROFESOR,
-            modelName: 'Profesor',
-            timestamps: false
-        }
-    }
+  static associate(models) {
+    Profesor.belongsToMany(models.Materia, {
+      through: models.ProfesorMateria,
+      foreignKey: 'id_profesor',
+      otherKey: 'codigo_materia'
+    });
+  }
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: 'profesor',
+      modelName: 'Profesor',
+      timestamps: false
+    };
+  }
 }
 
 const ProfesorSchema = {
-    id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER
-    },
-    nombre: {
-        allowNull: false,
-        type: DataTypes.STRING
-    },
-    apellido: {
-        allowNull: false,
-        type: DataTypes.STRING
-    },
-    cedula: {
-        allowNull: false,
-        unique: true,
-        type: DataTypes.STRING
-    },
-    telefono: {
-        allowNull: false,
-        type: DataTypes.STRING
-    },
-    direccion: {
-        allowNull: true,
-        type: DataTypes.STRING
-    },
-    materia: {
-        allowNull: false,
-        type: DataTypes.STRING
-    }
-}
+  id_profesor: {
+    type: DataTypes.STRING(10),
+    primaryKey: true
+  },
+  cedula: {
+    type: DataTypes.STRING(20),
+    unique: true,
+    allowNull: false
+  },
+  nombre: {
+    type: DataTypes.STRING(100),
+    allowNull: false
+  },
+  apellido: {
+    type: DataTypes.STRING(100),
+    allowNull: false
+  },
+  correo: {
+    type: DataTypes.STRING(100),
+    unique: true,
+    allowNull: false
+  },
+  telefono: DataTypes.STRING(20),
+  direccion: DataTypes.STRING(255)
+};
 
-module.exports = { Profesor, ProfesorSchema, PROFESOR };
+module.exports = { Profesor, ProfesorSchema };

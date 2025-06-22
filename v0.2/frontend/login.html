@@ -21,7 +21,7 @@
 <body class="bg-gradient-to-r from-blue-600 to-blue-400 min-h-screen relative">
 
   <!-- Botón de volver -->
-  <a href="principal.html" class="absolute top-4 right-4 flex items-center text-white hover:text-blue-200 transition">
+  <a href="principal.html" class="fixed top-4 left-4 z-50 flex items-center text-white hover:text-blue-200 transition bg-blue-700 bg-opacity-80 px-3 py-1 rounded shadow">
     <i class="ti ti-door-enter text-2xl mr-1"></i>
     Volver
   </a>
@@ -51,6 +51,7 @@
             class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
+          <div id="email-error" class="hidden mt-1 text-sm text-red-600 bg-red-100 rounded px-2 py-1"></div>
         </div>
         <!-- Contraseña -->
         <div class="mb-4">
@@ -66,6 +67,7 @@
               <input type="checkbox" id="toggle-password" class="mr-1 align-middle" /> Mostrar
             </label>
           </div>
+          <div id="password-error" class="hidden mt-1 text-sm text-red-600 bg-red-100 rounded px-2 py-1"></div>
         </div>
         <!-- Recordarme + Olvidaste -->
         <div class="flex items-center justify-between mb-6 text-sm">

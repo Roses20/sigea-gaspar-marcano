@@ -36,12 +36,12 @@ async function cargarMaterias() {
     materias.forEach(m => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td class="px-4 py-2">${m.id}</td>
+        <td class="px-4 py-2">${m.codigo_materia}</td>
         <td class="px-4 py-2">${m.nombre}</td>
-        <td class="px-4 py-2">${m.codigo}</td>
+        <td class="px-4 py-2">${m.anio}</td>
         <td class="px-4 py-2 flex gap-2">
-          <button class="bg-yellow-400 px-2 py-1 rounded text-xs" onclick="editarMateria(${m.id}, '${m.nombre.replace(/'/g, "\\'")}', '${m.codigo.replace(/'/g, "\\'")}')">Editar</button>
-          <button class="bg-red-500 text-white px-2 py-1 rounded text-xs" onclick="eliminarMateria(${m.id})">Eliminar</button>
+          <button class="bg-yellow-400 px-2 py-1 rounded text-xs" onclick="editarMateria('${m.codigo_materia}', '${m.nombre.replace(/'/g, "\\'")}', ${m.anio})">Editar</button>
+          <button class="bg-red-500 text-white px-2 py-1 rounded text-xs" onclick="eliminarMateria('${m.codigo_materia}')">Eliminar</button>
         </td>
       `;
       tbody.appendChild(tr);
@@ -52,11 +52,11 @@ async function cargarMaterias() {
   }
 }
 
-window.editarMateria = function(id, nombre, codigo) {
+window.editarMateria = function(id, nombre, anio) {
   editando = true;
   idInput.value = id;
   nombreInput.value = nombre;
-  codigoInput.value = codigo;
+  codigoInput.value = anio;
   cancelarBtn.classList.remove('hidden');
   mostrarFeedback('Editando materia ID ' + id, true);
 };
@@ -88,8 +88,8 @@ cancelarBtn.addEventListener('click', () => {
 form.addEventListener('submit', async e => {
   e.preventDefault();
   const nombre = nombreInput.value.trim();
-  const codigo = codigoInput.value.trim();
-  if (!nombre || !codigo) {
+  const anio = codigoInput.value.trim();
+  if (!nombre || !anio) {
     mostrarFeedback('Todos los campos son obligatorios.', false);
     return;
   }
@@ -100,14 +100,14 @@ form.addEventListener('submit', async e => {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ nombre, codigo })
+        body: JSON.stringify({ nombre, anio })
       });
     } else {
       res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ nombre, codigo })
+        body: JSON.stringify({ nombre, anio })
       });
     }
     if (!res.ok) throw new Error('Error al guardar');

@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 
-const PERIODO = 'periodo';
+const PERIODO = 'periodos';
 
 class Periodo extends Model {
     static config(sequelize) {

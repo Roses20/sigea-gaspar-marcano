@@ -20,31 +20,31 @@ const NotaSchema = {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    estudianteId: {
+    id_estudiante: {
         allowNull: false,
-        type: DataTypes.INTEGER,
-        field: 'estudiante_id',
+        type: DataTypes.STRING(10),
+        field: 'id_estudiante',
         references: {
             model: 'estudiante',
-            key: 'id'
+            key: 'id_estudiante'
         }
     },
-    materiaId: {
+    codigo_materia: {
         allowNull: false,
-        type: DataTypes.INTEGER,
-        field: 'materia_id',
+        type: DataTypes.STRING(20),
+        field: 'codigo_materia',
         references: {
             model: 'materia',
-            key: 'id'
+            key: 'codigo_materia'
         }
     },
-    profesorId: {
+    id_profesor: {
         allowNull: true,
-        type: DataTypes.INTEGER,
-        field: 'profesor_id',
+        type: DataTypes.STRING(10),
+        field: 'id_profesor',
         references: {
             model: 'profesor',
-            key: 'id'
+            key: 'id_profesor'
         }
     },
     periodo: {

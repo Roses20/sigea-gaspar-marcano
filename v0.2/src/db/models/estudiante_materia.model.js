@@ -1,18 +1,18 @@
 const { Model, DataTypes } = require('sequelize');
 
-class ProfesorMateria extends Model {
+class EstudianteMateria extends Model {
   static config(sequelize) {
     return {
       sequelize,
-      tableName: 'profesor_materia',
-      modelName: 'ProfesorMateria',
+      tableName: 'estudiante_materia',
+      modelName: 'EstudianteMateria',
       timestamps: false
     };
   }
 }
 
-const ProfesorMateriaSchema = {
-  id_profesor: {
+const EstudianteMateriaSchema = {
+  id_estudiante: {
     type: DataTypes.STRING(10),
     primaryKey: true
   },
@@ -22,4 +22,4 @@ const ProfesorMateriaSchema = {
   }
 };
 
-module.exports = { ProfesorMateria, ProfesorMateriaSchema };
+module.exports = { EstudianteMateria, EstudianteMateriaSchema };

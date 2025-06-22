@@ -106,4 +106,23 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.replace('login.html');
     });
   });
+
+  // Cambios: Adaptar para mostrar y consumir id_profesor y materias desde el endpoint REST actualizado
+  // Ejemplo de consulta de materias del profesor:
+  async function cargarMateriasProfesor() {
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    if (!usuario || !usuario.id_profesor) return;
+    try {
+      const res = await fetch(`/api/profesores/${usuario.id_profesor}/materias`);
+      if (!res.ok) throw new Error('No se pudieron cargar las materias');
+      const materias = await res.json();
+      // Renderizar materias en la tabla o lista correspondiente
+      // ...
+    } catch (e) {
+      // Mostrar error
+    }
+  }
+
+  // Llamar a la función para cargar materias al iniciar
+  cargarMateriasProfesor();
 });

@@ -4,6 +4,23 @@ class UsuarioService {
     constructor() {}
 
     async create(data) {
+        // Generar ID único según el rol
+        let prefix = '';
+        if (data.rol === 'estudiante') prefix = 'ST';
+        else if (data.rol === 'profesor') prefix = 'PR';
+        else prefix = 'AD';
+        // Buscar el último ID existente con ese prefijo
+        const last = await models.Usuario.findOne({
+            where: { id: { [models.Sequelize.Op.like]: `${prefix}%` } },
+            order: [['id', 'DESC']]
+        });
+        let num = 1;
+        if (last && last.id) {
+            const match = last.id.match(/\d+$/);
+            if (match) num = parseInt(match[0], 10) + 1;
+        }
+        const id = `${prefix}${String(num).padStart(3, '0')}`;
+        data.id = id;
         const newUsuario = await models.Usuario.create(data);
         return newUsuario;
     }

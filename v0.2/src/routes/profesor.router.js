@@ -4,7 +4,10 @@ const {
     getProfesor,
     createProfesor,
     updateProfesor,
-    deleteProfesor
+    deleteProfesor,
+    getMaterias,
+    asignarMateria,
+    quitarMateria
 } = require('../controllers/profesor.controller');
 const { authenticateToken } = require('../middleware/auth.middleware');
 const { body, param, validationResult } = require('express-validator');
@@ -23,7 +26,7 @@ function validate(req, res, next) {
 }
 
 router.get('/', authenticateToken, getProfesores); // Proteger la ruta
-router.get('/:id', authenticateToken, getProfesor); // Proteger la ruta
+router.get('/:id_profesor', authenticateToken, getProfesor); // Proteger la ruta
 router.post('/', [
     authenticateToken,
     body('nombre').isString().notEmpty().withMessage('El nombre es obligatorio'),
@@ -34,9 +37,9 @@ router.post('/', [
     body('materia').isString().notEmpty().withMessage('La materia es obligatoria'),
     validate
 ], createProfesor); // Proteger la ruta
-router.put('/:id', [
+router.put('/:id_profesor', [
     authenticateToken,
-    param('id').isInt().withMessage('El ID debe ser un número entero'),
+    param('id_profesor').isInt().withMessage('El ID debe ser un número entero'),
     body('nombre').optional().isString().withMessage('El nombre debe ser un texto'),
     body('apellido').optional().isString().withMessage('El apellido debe ser un texto'),
     body('cedula').optional().isString().withMessage('La cédula debe ser un texto'),
@@ -45,7 +48,16 @@ router.put('/:id', [
     body('materia').optional().isString().withMessage('La materia debe ser un texto'),
     validate
 ], updateProfesor); // Proteger la ruta
-router.delete('/:id', authenticateToken, deleteProfesor); // Proteger la ruta
+router.delete('/:id_profesor', authenticateToken, deleteProfesor); // Proteger la ruta
+
+// Materias del profesor
+router.get('/:id_profesor/materias', authenticateToken, getMaterias); // Proteger la ruta
+router.post('/:id_profesor/materias', [
+    authenticateToken,
+    body('codigo_materia').isString().notEmpty().withMessage('El código de la materia es obligatorio'),
+    validate
+], asignarMateria); // Proteger la ruta
+router.delete('/:id_profesor/materias/:codigo_materia', authenticateToken, quitarMateria); // Proteger la ruta
 
 // Profesor puede ver la lista de estudiantes asignados
 router.get('/estudiantes', checkRole(['profesor']), async (req, res, next) => {
