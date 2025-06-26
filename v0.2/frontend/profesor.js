@@ -1,14 +1,39 @@
 // Lógica para mostrar datos del profesor logueado y cierre de sesión
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Obtener datos del usuario logueado desde localStorage
-  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  // Buscar datos en localStorage o sessionStorage
+  function getSessionItem(key) {
+    return localStorage.getItem(key) || sessionStorage.getItem(key);
+  }
+  const usuario = JSON.parse(getSessionItem('usuario'));
+  const sessionTimestamp = getSessionItem('sessionTimestamp');
+  const now = Date.now();
+  const TEN_MINUTES = 10 * 60 * 1000;
 
-  // Si no hay usuario, redirigir a login
+  // Si no hay usuario o no es profesor, redirigir a login
   if (!usuario || usuario.rol !== 'profesor') {
     window.location.href = 'login.html';
     return;
   }
+
+  // Verificar expiración de sesión (10 minutos)
+  if (!sessionTimestamp || now - Number(sessionTimestamp) > TEN_MINUTES) {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // Refrescar timestamp en cada acción del usuario
+  function refreshTimestamp() {
+    if (localStorage.getItem('usuario')) {
+      localStorage.setItem('sessionTimestamp', Date.now());
+    } else {
+      sessionStorage.setItem('sessionTimestamp', Date.now());
+    }
+  }
+  document.body.addEventListener('mousemove', refreshTimestamp);
+  document.body.addEventListener('keydown', refreshTimestamp);
 
   // Mostrar nombre y correo en la barra superior y bienvenida
   const nombre = usuario.nombre || '';
@@ -100,9 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopImmediatePropagation();
-      localStorage.removeItem('token');
-      localStorage.removeItem('usuario');
-      localStorage.removeItem('sessionTimestamp');
+      localStorage.clear();
+      sessionStorage.clear();
       window.location.replace('login.html');
     });
   });

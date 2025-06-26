@@ -2,11 +2,12 @@ const express = require('express');
 const { generateToken, hashPassword, comparePassword } = require('../auth/auth');
 const { models } = require('../libs/sequelize');
 const { loginRateLimiter } = require('../middleware/rateLimiter.middleware');
+const { authenticateToken, checkRole } = require('../middleware/auth.middleware');
 
 const router = express.Router();
 
 // Endpoint para registro de usuarios
-router.post('/register', async (req, res, next) => {
+router.post('/register', authenticateToken, checkRole(['admin']), async (req, res, next) => {
     try {
         const { email, password, rol } = req.body;
         const hashedPassword = await hashPassword(password);

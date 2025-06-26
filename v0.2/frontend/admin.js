@@ -2,11 +2,15 @@
 // Mostrar datos del usuario logueado en las pantallas de admin
 
 document.addEventListener('DOMContentLoaded', function () {
-  const token = localStorage.getItem('token');
-  const rol = localStorage.getItem('rol');
-  const userEmail = localStorage.getItem('email');
-  const userName = localStorage.getItem('username');
-  const sessionTimestamp = localStorage.getItem('sessionTimestamp');
+  // Buscar datos en localStorage o sessionStorage
+  function getSessionItem(key) {
+    return localStorage.getItem(key) || sessionStorage.getItem(key);
+  }
+  const token = getSessionItem('token');
+  const rol = getSessionItem('rol');
+  const userEmail = getSessionItem('email');
+  const userName = getSessionItem('username');
+  const sessionTimestamp = getSessionItem('sessionTimestamp');
   const now = Date.now();
   const TEN_MINUTES = 10 * 60 * 1000;
 
@@ -18,23 +22,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Expiración de sesión igual que otros roles
   if (!sessionTimestamp || now - Number(sessionTimestamp) > TEN_MINUTES) {
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
-    localStorage.removeItem('rol');
-    localStorage.removeItem('email');
-    localStorage.removeItem('username');
-    localStorage.removeItem('sessionTimestamp');
+    localStorage.clear();
+    sessionStorage.clear();
     window.location.href = 'login.html';
     return;
   }
 
   // Refrescar timestamp en cada acción del usuario
-  document.body.addEventListener('mousemove', () => {
-    localStorage.setItem('sessionTimestamp', Date.now());
-  });
-  document.body.addEventListener('keydown', () => {
-    localStorage.setItem('sessionTimestamp', Date.now());
-  });
+  function refreshTimestamp() {
+    if (localStorage.getItem('token')) {
+      localStorage.setItem('sessionTimestamp', Date.now());
+    } else {
+      sessionStorage.setItem('sessionTimestamp', Date.now());
+    }
+  }
+  document.body.addEventListener('mousemove', refreshTimestamp);
+  document.body.addEventListener('keydown', refreshTimestamp);
 
   // Mostrar nombre/email en la barra superior
   const userNameElement = document.querySelector('.admin-username');
@@ -54,12 +57,8 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopImmediatePropagation();
-      localStorage.removeItem('token');
-      localStorage.removeItem('usuario');
-      localStorage.removeItem('rol');
-      localStorage.removeItem('email');
-      localStorage.removeItem('username');
-      localStorage.removeItem('sessionTimestamp');
+      localStorage.clear();
+      sessionStorage.clear();
       window.location.replace('login.html');
     });
   });
