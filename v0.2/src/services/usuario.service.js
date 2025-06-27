@@ -1,4 +1,4 @@
-const { models } = require('../libs/sequelize');
+const { Usuario, Sequelize } = require('../db/models');
 
 class UsuarioService {
     constructor() {}
@@ -10,8 +10,8 @@ class UsuarioService {
         else if (data.rol === 'profesor') prefix = 'PR';
         else prefix = 'AD';
         // Buscar el último ID existente con ese prefijo
-        const last = await models.Usuario.findOne({
-            where: { id: { [models.Sequelize.Op.like]: `${prefix}%` } },
+        const last = await Usuario.findOne({
+            where: { id: { [Sequelize.Op.like]: `${prefix}%` } },
             order: [['id', 'DESC']]
         });
         let num = 1;
@@ -21,17 +21,17 @@ class UsuarioService {
         }
         const id = `${prefix}${String(num).padStart(3, '0')}`;
         data.id = id;
-        const newUsuario = await models.Usuario.create(data);
+        const newUsuario = await Usuario.create(data);
         return newUsuario;
     }
 
     async findAll() {
-        const usuarios = await models.Usuario.findAll();
+        const usuarios = await Usuario.findAll();
         return usuarios;
     }
 
     async findOne(id) {
-        const usuario = await models.Usuario.findByPk(id);
+        const usuario = await Usuario.findByPk(id);
         if (!usuario) {
             throw new Error('Usuario no encontrado');
         }

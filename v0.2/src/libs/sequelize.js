@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 const { config } = require('../config/config');
-const setupModels = require('../db/models');
+const { setupModels } = require('../db/models');
 
 function buildDatabaseUrl() {
     const user = (config.dbUser || '').replace(/'/g, '');
@@ -26,4 +26,7 @@ setupModels(sequelize);
 
 const models = sequelize.models;
 
-module.exports = { sequelize, models };
+// Exportar modelos individuales para uso directo en servicios
+const { Profesor, Materia, Estudiante, Usuario, Nota, Periodo, Seccion, ProfesorMateria, EstudianteMateria, HistorialNotas } = models;
+
+module.exports = { sequelize, models, Profesor, Materia, Estudiante, Usuario, Nota, Periodo, Seccion, ProfesorMateria, EstudianteMateria, HistorialNotas };

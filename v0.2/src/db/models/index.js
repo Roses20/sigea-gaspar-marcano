@@ -40,4 +40,26 @@ function setupModels(sequelize){
     Materia.belongsToMany(Profesor, { through: ProfesorMateria, foreignKey: 'codigo_materia', otherKey: 'id_profesor' });
 }
 
-module.exports = setupModels;
+module.exports = {
+  setupModels,
+  Estudiante,
+  EstudianteSchema,
+  Profesor,
+  ProfesorSchema,
+  Materia,
+  MateriaSchema,
+  Nota,
+  NotaSchema,
+  Periodo,
+  PeriodoSchema,
+  Usuario,
+  UsuarioSchema,
+  Seccion,
+  SeccionSchema,
+  ProfesorMateria,
+  ProfesorMateriaSchema,
+  EstudianteMateria,
+  EstudianteMateriaSchema,
+  HistorialNotas,
+  HistorialNotasSchema
+};

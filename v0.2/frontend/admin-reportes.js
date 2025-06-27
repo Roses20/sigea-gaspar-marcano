@@ -72,3 +72,35 @@ function formatoUsuarios(data) {
   if (!data || !data.usuarios) return 'Sin datos.';
   return `<pre class='whitespace-pre-wrap'>${JSON.stringify(data.usuarios, null, 2)}</pre>`;
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Buscar datos en localStorage o sessionStorage
+  function getSessionItem(key) {
+    return localStorage.getItem(key) || sessionStorage.getItem(key);
+  }
+  const token = getSessionItem('token');
+  const rol = getSessionItem('rol');
+  const sessionTimestamp = getSessionItem('sessionTimestamp');
+  const now = Date.now();
+  const TEN_MINUTES = 10 * 60 * 1000;
+
+  if (!token || rol !== 'admin') {
+    window.location.href = 'login.html';
+    return;
+  }
+  if (!sessionTimestamp || now - Number(sessionTimestamp) > TEN_MINUTES) {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = 'login.html';
+    return;
+  }
+  function refreshTimestamp() {
+    if (localStorage.getItem('token')) {
+      localStorage.setItem('sessionTimestamp', Date.now());
+    } else {
+      sessionStorage.setItem('sessionTimestamp', Date.now());
+    }
+  }
+  document.body.addEventListener('mousemove', refreshTimestamp);
+  document.body.addEventListener('keydown', refreshTimestamp);
+});

@@ -1,20 +1,20 @@
-const { models } = require('../libs/sequelize');
+const { Periodo } = require('../db/models');
 
 class PeriodoService {
     constructor() {}
 
     async create(data) {
-        const newPeriodo = await models.Periodo.create(data);
+        const newPeriodo = await Periodo.create(data);
         return newPeriodo;
     }
 
     async findAll() {
-        const periodos = await models.Periodo.findAll();
+        const periodos = await Periodo.findAll();
         return periodos;
     }
 
     async findOne(id) {
-        const periodo = await models.Periodo.findByPk(id);
+        const periodo = await Periodo.findByPk(id);
         if (!periodo) {
             throw new Error('Periodo no encontrado');
         }

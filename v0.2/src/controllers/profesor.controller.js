@@ -3,7 +3,7 @@ const profesorService = require('../services/profesor.service');
 // Controlador para Profesor adaptado a IDs personalizados y relaciones muchos-a-muchos
 exports.getProfesores = async function(req, res) {
   try {
-    const profesores = await profesorService.getAll();
+    const profesores = await profesorService.findAll();
     res.json(profesores);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -12,8 +12,8 @@ exports.getProfesores = async function(req, res) {
 
 exports.getProfesor = async function(req, res) {
   try {
-    const { id_profesor } = req.params;
-    const profesor = await profesorService.getById(id_profesor);
+    const { cedula } = req.params;
+    const profesor = await profesorService.getByCedula(cedula);
     if (!profesor) return res.status(404).json({ error: 'No encontrado' });
     res.json(profesor);
   } catch (err) {
@@ -33,22 +33,22 @@ exports.createProfesor = async function(req, res) {
 
 exports.updateProfesor = async function(req, res) {
   try {
-    const { id_profesor } = req.params;
+    const { cedula } = req.params;
     const data = req.body;
-    const actualizado = await profesorService.update(id_profesor, data);
+    const actualizado = await profesorService.updateByCedula(cedula, data);
     if (!actualizado) return res.status(404).json({ error: 'No encontrado' });
     res.json(actualizado);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 };
 
 exports.deleteProfesor = async function(req, res) {
   try {
-    const { id_profesor } = req.params;
-    const eliminado = await profesorService.remove(id_profesor);
+    const { cedula } = req.params;
+    const eliminado = await profesorService.removeByCedula(cedula);
     if (!eliminado) return res.status(404).json({ error: 'No encontrado' });
-    res.json({ message: 'Eliminado' });
+    res.json({ eliminado: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

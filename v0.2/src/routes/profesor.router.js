@@ -26,20 +26,20 @@ function validate(req, res, next) {
 }
 
 router.get('/', authenticateToken, getProfesores); // Proteger la ruta
-router.get('/:id_profesor', authenticateToken, getProfesor); // Proteger la ruta
+router.get('/:cedula', authenticateToken, getProfesor); // Proteger la ruta
 router.post('/', [
     authenticateToken,
+    checkRole(['admin']),
     body('nombre').isString().notEmpty().withMessage('El nombre es obligatorio'),
-    body('apellido').isString().notEmpty().withMessage('El apellido es obligatorio'),
     body('cedula').isString().notEmpty().withMessage('La cédula es obligatoria'),
     body('telefono').isString().notEmpty().withMessage('El teléfono es obligatorio'),
     body('direccion').optional().isString().withMessage('La dirección debe ser un texto'),
-    body('materia').isString().notEmpty().withMessage('La materia es obligatoria'),
+    body('fecha_nacimiento').optional().isString().withMessage('La fecha de nacimiento debe ser un texto'),
     validate
 ], createProfesor); // Proteger la ruta
-router.put('/:id_profesor', [
+router.put('/:cedula', [
     authenticateToken,
-    param('id_profesor').isInt().withMessage('El ID debe ser un número entero'),
+    param('cedula').isString().withMessage('La cédula debe ser un texto'),
     body('nombre').optional().isString().withMessage('El nombre debe ser un texto'),
     body('apellido').optional().isString().withMessage('El apellido debe ser un texto'),
     body('cedula').optional().isString().withMessage('La cédula debe ser un texto'),
@@ -48,7 +48,7 @@ router.put('/:id_profesor', [
     body('materia').optional().isString().withMessage('La materia debe ser un texto'),
     validate
 ], updateProfesor); // Proteger la ruta
-router.delete('/:id_profesor', authenticateToken, deleteProfesor); // Proteger la ruta
+router.delete('/:cedula', authenticateToken, deleteProfesor); // Proteger la ruta
 
 // Materias del profesor
 router.get('/:id_profesor/materias', authenticateToken, getMaterias); // Proteger la ruta

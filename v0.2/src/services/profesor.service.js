@@ -2,7 +2,7 @@
 const { Profesor, Materia } = require('../db/models');
 
 module.exports = {
-  async getAll() {
+  async findAll() {
     return Profesor.findAll();
   },
   async getById(id_profesor) {
@@ -52,5 +52,20 @@ module.exports = {
     if (!profesor || !materia) throw new Error('No encontrado');
     await profesor.removeMateria(materia);
     return { message: 'Materia removida' };
+  },
+  async getByCedula(cedula) {
+    return Profesor.findOne({ where: { cedula } });
+  },
+  async updateByCedula(cedula, data) {
+    const profesor = await Profesor.findOne({ where: { cedula } });
+    if (!profesor) return null;
+    await profesor.update(data);
+    return profesor;
+  },
+  async removeByCedula(cedula) {
+    const profesor = await Profesor.findOne({ where: { cedula } });
+    if (!profesor) return null;
+    await profesor.destroy();
+    return true;
   }
 };

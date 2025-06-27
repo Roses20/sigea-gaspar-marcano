@@ -3,7 +3,7 @@ const materiaService = require('../services/materia.service');
 
 exports.getMaterias = async function(req, res) {
   try {
-    const materias = await materiaService.getAll();
+    const materias = await materiaService.findAll();
     res.json(materias);
   } catch (err) {
     res.status(500).json({ error: err.message });

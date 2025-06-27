@@ -1,20 +1,20 @@
-const { models } = require('../libs/sequelize');
+const { ProfesorMateria } = require('../db/models');
 
 class ProfesorMateriaService {
     constructor() {}
 
     async create(data) {
-        const newProfesorMateria = await models.ProfesorMateria.create(data);
+        const newProfesorMateria = await ProfesorMateria.create(data);
         return newProfesorMateria;
     }
 
     async findAll() {
-        const profesorMaterias = await models.ProfesorMateria.findAll();
+        const profesorMaterias = await ProfesorMateria.findAll();
         return profesorMaterias;
     }
 
     async findOne(id) {
-        const profesorMateria = await models.ProfesorMateria.findByPk(id);
+        const profesorMateria = await ProfesorMateria.findByPk(id);
         if (!profesorMateria) {
             throw new Error('Asignación no encontrada');
         }

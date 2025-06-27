@@ -6,7 +6,7 @@ const {
     updateUsuario,
     deleteUsuario
 } = require('../controllers/usuario.controller');
-const { authenticateToken } = require('../middleware/auth.middleware');
+const { authenticateToken, checkRole } = require('../middleware/auth.middleware');
 const { body, param, validationResult } = require('express-validator');
 const { Usuario } = require('../db/models');
 
@@ -22,7 +22,7 @@ function validate(req, res, next) {
 
 router.get('/', authenticateToken, getUsuarios); // Proteger la ruta
 router.get('/:id', authenticateToken, getUsuario); // Proteger la ruta
-router.post('/', [
+router.post('/', authenticateToken, checkRole(['admin']), [
     body('username').isString().notEmpty().withMessage('El nombre de usuario es obligatorio'),
     body('password').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
     body('rol').isIn(['estudiante', 'profesor', 'admin']).withMessage('El rol es inválido'),

@@ -2,7 +2,7 @@
 const { Materia, Estudiante, Profesor } = require('../db/models');
 
 module.exports = {
-  async getAll() {
+  async findAll() {
     return Materia.findAll();
   },
   async getById(codigo_materia) {

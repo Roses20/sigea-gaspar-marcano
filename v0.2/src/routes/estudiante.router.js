@@ -27,15 +27,16 @@ function validate(req, res, next) {
 router.use(authenticateToken);
 
 // Solo admin puede crear estudiantes
-router.post('/', checkRole(['admin']), [
+router.post('/', [
+    authenticateToken,
+    checkRole(['admin']),
     body('nombre').isString().notEmpty().withMessage('El nombre es obligatorio'),
-    body('apellido').isString().notEmpty().withMessage('El apellido es obligatorio'),
     body('cedula').isString().notEmpty().withMessage('La cédula es obligatoria'),
     body('telefono').isString().notEmpty().withMessage('El teléfono es obligatorio'),
-    body('fecha_nacimiento').isDate().withMessage('La fecha de nacimiento debe ser válida'),
+    body('fecha_nacimiento').optional().isString().withMessage('La fecha de nacimiento debe ser un texto'),
     body('direccion').optional().isString().withMessage('La dirección debe ser un texto'),
-    body('anio').isString().notEmpty().withMessage('El año es obligatorio'),
-    body('seccion').isString().notEmpty().withMessage('La sección es obligatoria'),
+    body('anio').optional().isString().withMessage('El año es obligatorio'),
+    body('seccion').optional().isString().withMessage('La sección es obligatoria'),
     validate
 ], createEstudiante); // Proteger la ruta
 
@@ -43,19 +44,18 @@ router.post('/', checkRole(['admin']), [
 router.get('/', checkRole(['admin', 'profesor']), getEstudiantes); // Proteger la ruta
 
 // Estudiante solo puede ver sus propios datos
-router.get('/:id_estudiante', checkRole(['admin', 'profesor', 'estudiante']), async (req, res, next) => {
-    if (req.user.rol === 'estudiante' && req.user.id !== parseInt(req.params.id_estudiante)) {
+router.get('/:cedula', checkRole(['admin', 'profesor', 'estudiante']), async (req, res, next) => {
+    if (req.user.rol === 'estudiante' && req.user.id !== parseInt(req.params.cedula)) {
         return res.status(403).json({ message: 'Acceso denegado' });
     }
     getEstudiante(req, res, next);
 }); // Proteger la ruta
 
 // Solo admin y profesor pueden modificar datos de estudiantes
-router.put('/:id_estudiante', checkRole(['admin', 'profesor']), [
-    param('id_estudiante').isInt().withMessage('El ID debe ser un número entero'),
+router.put('/:cedula', checkRole(['admin', 'profesor']), [
+    param('cedula').isString().withMessage('La cédula debe ser un texto'),
     body('nombre').optional().isString().withMessage('El nombre debe ser un texto'),
     body('apellido').optional().isString().withMessage('El apellido debe ser un texto'),
-    body('cedula').optional().isString().withMessage('La cédula debe ser un texto'),
     body('telefono').optional().isString().withMessage('El teléfono debe ser un texto'),
     body('fecha_nacimiento').optional().isDate().withMessage('La fecha de nacimiento debe ser válida'),
     body('direccion').optional().isString().withMessage('La dirección debe ser un texto'),
@@ -65,7 +65,7 @@ router.put('/:id_estudiante', checkRole(['admin', 'profesor']), [
 ], updateEstudiante); // Proteger la ruta
 
 // Solo admin puede eliminar estudiantes
-router.delete('/:id_estudiante', checkRole(['admin']), deleteEstudiante); // Proteger la ruta
+router.delete('/:cedula', checkRole(['admin']), deleteEstudiante); // Proteger la ruta
 
 // Estudiante puede ver sus datos personales
 router.get('/perfil', checkRole(['estudiante']), async (req, res, next) => {
@@ -107,8 +107,8 @@ router.put('/perfil', checkRole(['estudiante']), async (req, res, next) => {
 });
 
 // Materias del estudiante
-router.get('/:id_estudiante/materias', checkRole(['admin', 'profesor', 'estudiante']), getMaterias);
-router.post('/:id_estudiante/materias', checkRole(['admin', 'profesor']), asignarMateria);
-router.delete('/:id_estudiante/materias/:codigo_materia', checkRole(['admin', 'profesor']), quitarMateria);
+router.get('/:cedula/materias', checkRole(['admin', 'profesor', 'estudiante']), getMaterias);
+router.post('/:cedula/materias', checkRole(['admin', 'profesor']), asignarMateria);
+router.delete('/:cedula/materias/:codigo_materia', checkRole(['admin', 'profesor']), quitarMateria);
 
 module.exports = router;

@@ -61,6 +61,24 @@ class EstudianteService {
     await estudiante.removeMateria(materia);
     return { message: 'Materia removida' };
   }
+
+  async getByCedula(cedula) {
+    return Estudiante.findOne({ where: { cedula } });
+  }
+
+  async updateByCedula(cedula, data) {
+    const estudiante = await Estudiante.findOne({ where: { cedula } });
+    if (!estudiante) return null;
+    await estudiante.update(data);
+    return estudiante;
+  }
+
+  async removeByCedula(cedula) {
+    const estudiante = await Estudiante.findOne({ where: { cedula } });
+    if (!estudiante) return null;
+    await estudiante.destroy();
+    return true;
+  }
 }
 
-module.exports = EstudianteService;
+module.exports = new EstudianteService();

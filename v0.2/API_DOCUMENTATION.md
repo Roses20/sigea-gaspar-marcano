@@ -1,4 +1,4 @@
-# API Documentation
+# Documentación de la API
 
 ## Base URL
 ```
@@ -9,319 +9,178 @@ http://localhost:3000/api
 
 ## Endpoints
 
-### 1. **Estudiantes**
-#### GET `/estudiantes`
-- **Description:** Obtener todos los estudiantes.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Response:**
+### 1. Estudiantes
+- **GET `/estudiantes`**: Listar todos los estudiantes (admin/profesor)
+- **GET `/estudiantes/:id_estudiante`**: Obtener un estudiante por ID (admin/profesor/estudiante)
+- **POST `/estudiantes`**: Crear estudiante (admin)
+- **PUT `/estudiantes/:id_estudiante`**: Actualizar estudiante (admin/profesor)
+- **DELETE `/estudiantes/:id_estudiante`**: Eliminar estudiante (admin)
+- **GET `/estudiantes/:id_estudiante/materias`**: Materias inscritas (admin/profesor/estudiante)
+- **POST `/estudiantes/:id_estudiante/materias`**: Asignar materia (admin/profesor)
+- **DELETE `/estudiantes/:id_estudiante/materias/:codigo_materia`**: Quitar materia (admin/profesor)
+- **GET `/estudiantes/perfil`**: Perfil del estudiante autenticado
+- **PUT `/estudiantes/perfil`**: Modificar perfil del estudiante autenticado
+
+#### Ejemplo de respuesta GET `/estudiantes`
 ```json
 [
   {
-    "id": 1,
+    "id_estudiante": "ST001",
     "nombre": "Juan",
-    "apellido": "Perez",
+    "apellido": "Pérez",
     "cedula": "12345678",
     "telefono": "123456789",
-    "fecha_nacimiento": "2000-01-01",
     "direccion": "Calle Falsa 123",
-    "anio": "2023",
+    "anio": 2023,
     "seccion": "A"
   }
 ]
 ```
 
-#### POST `/estudiantes`
-- **Description:** Crear un nuevo estudiante.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Body:**
-```json
-{
-  "nombre": "Juan",
-  "apellido": "Perez",
-  "cedula": "12345678",
-  "telefono": "123456789",
-  "fecha_nacimiento": "2000-01-01",
-  "direccion": "Calle Falsa 123",
-  "anio": "2023",
-  "seccion": "A"
-}
-```
-- **Response:**
-```json
-{
-  "id": 1,
-  "nombre": "Juan",
-  "apellido": "Perez",
-  "cedula": "12345678",
-  "telefono": "123456789",
-  "fecha_nacimiento": "2000-01-01",
-  "direccion": "Calle Falsa 123",
-  "anio": "2023",
-  "seccion": "A"
-}
-```
-
-#### PUT `/estudiantes/:id`
-- **Description:** Actualizar un estudiante por ID.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Body:**
-```json
-{
-  "nombre": "Juan",
-  "apellido": "Perez"
-}
-```
-- **Response:**
-```json
-{
-  "id": 1,
-  "nombre": "Juan",
-  "apellido": "Perez",
-  "cedula": "12345678",
-  "telefono": "123456789",
-  "fecha_nacimiento": "2000-01-01",
-  "direccion": "Calle Falsa 123",
-  "anio": "2023",
-  "seccion": "A"
-}
-```
-
-#### DELETE `/estudiantes/:id`
-- **Description:** Eliminar un estudiante por ID.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Response:**
-```json
-{
-  "id": 1
-}
-```
-
-#### GET `/estudiantes/perfil`
-- **Description:** Obtener los datos personales del estudiante que inició sesión.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Response:**
-```json
-{
-  "id": 1,
-  "nombre": "Juan",
-  "apellido": "Perez",
-  "cedula": "12345678",
-  "telefono": "123456789",
-  "fecha_nacimiento": "2000-01-01",
-  "direccion": "Calle Falsa 123",
-  "anio": "2023",
-  "seccion": "A"
-}
-```
-
-#### PUT `/estudiantes/perfil`
-- **Description:** Modificar los datos de perfil del estudiante que inició sesión.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Body:**
-```json
-{
-  "username": "nuevoUsuario",
-  "password": "nuevaContraseña"
-}
-```
-- **Response:**
-```json
-{
-  "message": "Perfil actualizado correctamente."
-}
-```
-
 ---
 
-### 2. **Profesores**
-#### GET `/profesores`
-- **Description:** Obtener todos los profesores.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Response:**
+### 2. Profesores
+- **GET `/profesores`**: Listar todos los profesores (admin)
+- **GET `/profesores/:id_profesor`**: Obtener un profesor por ID (admin/profesor)
+- **POST `/profesores`**: Crear profesor (admin)
+- **PUT `/profesores/:id_profesor`**: Actualizar profesor (admin)
+- **DELETE `/profesores/:id_profesor`**: Eliminar profesor (admin)
+- **GET `/profesores/:id_profesor/materias`**: Materias asignadas (admin/profesor)
+- **POST `/profesores/:id_profesor/materias`**: Asignar materia (admin)
+- **DELETE `/profesores/:id_profesor/materias/:codigo_materia`**: Quitar materia (admin)
+
+#### Ejemplo de respuesta GET `/profesores`
 ```json
 [
   {
-    "id": 1,
-    "nombre": "Maria",
-    "apellido": "Lopez",
+    "id_profesor": "PR001",
+    "nombre": "María",
+    "apellido": "López",
     "cedula": "87654321",
     "telefono": "987654321",
-    "direccion": "Avenida Siempre Viva",
-    "materia": "Matemáticas"
+    "direccion": "Avenida Siempre Viva"
   }
 ]
 ```
 
-#### POST `/profesores`
-- **Description:** Crear un nuevo profesor.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Body:**
+---
+
+### 3. Materias
+- **GET `/materias`**: Listar todas las materias
+- **GET `/materias/:codigo_materia`**: Obtener materia por código
+- **POST `/materias`**: Crear materia (admin)
+- **PUT `/materias/:codigo_materia`**: Actualizar materia (admin)
+- **DELETE `/materias/:codigo_materia`**: Eliminar materia (admin)
+- **GET `/materias/:codigo_materia/estudiantes`**: Listar estudiantes inscritos
+- **GET `/materias/:codigo_materia/profesores`**: Listar profesores asignados
+
+#### Ejemplo de respuesta GET `/materias`
 ```json
-{
-  "nombre": "Maria",
-  "apellido": "Lopez",
-  "cedula": "87654321",
-  "telefono": "987654321",
-  "direccion": "Avenida Siempre Viva",
-  "materia": "Matemáticas"
-}
-```
-- **Response:**
-```json
-{
-  "id": 1,
-  "nombre": "Maria",
-  "apellido": "Lopez",
-  "cedula": "87654321",
-  "telefono": "987654321",
-  "direccion": "Avenida Siempre Viva",
-  "materia": "Matemáticas"
-}
+[
+  {
+    "codigo_materia": "MAT101",
+    "nombre": "Matemáticas",
+    "descripcion": "Álgebra y geometría"
+  }
+]
 ```
 
-#### PUT `/profesores/:id`
-- **Description:** Actualizar un profesor por ID.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Body:**
-```json
-{
-  "nombre": "Maria",
-  "apellido": "Lopez"
-}
-```
-- **Response:**
-```json
-{
-  "id": 1,
-  "nombre": "Maria",
-  "apellido": "Lopez",
-  "cedula": "87654321",
-  "telefono": "987654321",
-  "direccion": "Avenida Siempre Viva",
-  "materia": "Matemáticas"
-}
-```
+---
 
-#### DELETE `/profesores/:id`
-- **Description:** Eliminar un profesor por ID.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Response:**
-```json
-{
-  "id": 1
-}
-```
+### 4. Notas
+- **GET `/notas`**: Listar todas las notas (admin/profesor)
+- **GET `/notas/:id`**: Obtener nota por ID (admin/profesor)
+- **POST `/notas`**: Crear nota (profesor)
+- **PUT `/notas/:id`**: Actualizar nota (profesor)
+- **DELETE `/notas/:id`**: Eliminar nota (profesor)
 
-#### GET `/profesores/estudiantes`
-- **Description:** Obtener la lista de estudiantes asignados al profesor que inició sesión.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Response:**
+#### Ejemplo de respuesta GET `/notas`
 ```json
 [
   {
     "id": 1,
-    "nombre": "Juan",
-    "apellido": "Perez",
-    "cedula": "12345678",
-    "telefono": "123456789",
-    "fecha_nacimiento": "2000-01-01",
-    "direccion": "Calle Falsa 123",
-    "anio": "2023",
-    "seccion": "A"
+    "estudianteId": "ST001",
+    "materiaId": "MAT101",
+    "profesorId": "PR001",
+    "periodo": "2024-1",
+    "valor": 18.5
   }
 ]
 ```
 
-#### PUT `/profesores/notas`
-- **Description:** Modificar la nota de un estudiante asignado al profesor que inició sesión.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Body:**
-```json
-{
-  "estudianteId": 1,
-  "materiaId": 2,
-  "nota": 18
-}
-```
-- **Response:**
-```json
-{
-  "message": "Nota actualizada correctamente."
-}
-```
+---
+
+### 5. Periodos
+- **GET `/periodos`**: Listar periodos
+- **GET `/periodos/:id`**: Obtener periodo por ID
+- **POST `/periodos`**: Crear periodo (admin)
+- **PUT `/periodos/:id`**: Actualizar periodo (admin)
+- **DELETE `/periodos/:id`**: Eliminar periodo (admin)
 
 ---
 
-### 3. **Administradores**
-#### PUT `/secciones/:id`
-- **Description:** Cambiar la sección de un profesor.
-- **Headers:**
-  - `Authorization`: Bearer `<token>`
-- **Body:**
-```json
-{
-  "tutorId": 5
-}
-```
-- **Response:**
-```json
-{
-  "message": "Sección actualizada correctamente."
-}
-```
+### 6. Usuarios
+- **GET `/usuarios`**: Listar usuarios (admin)
+- **GET `/usuarios/:id`**: Obtener usuario por ID (admin)
+- **POST `/usuarios`**: Crear usuario (admin)
+- **PUT `/usuarios/:id`**: Actualizar usuario (admin)
+- **DELETE `/usuarios/:id`**: Eliminar usuario (admin)
 
 ---
 
-### 4. **Autenticación**
-#### POST `/auth/register`
-- **Description:** Registrar un nuevo usuario.
-- **Body:**
-```json
-{
-  "username": "admin",
-  "password": "admin123",
-  "rol": "admin"
-}
-```
-- **Response:**
-```json
-{
-  "id": 1,
-  "username": "admin",
-  "rol": "admin"
-}
-```
+### 7. Secciones
+- **GET `/secciones`**: Listar secciones
+- **GET `/secciones/:id`**: Obtener sección por ID
+- **POST `/secciones`**: Crear sección (admin)
+- **PUT `/secciones/:id`**: Actualizar sección (admin)
+- **DELETE `/secciones/:id`**: Eliminar sección (admin)
 
-#### POST `/auth/login`
-- **Description:** Iniciar sesión.
-- **Body:**
+---
+
+### 8. Profesor-Materias
+- **GET `/profesor-materias`**: Listar asignaciones
+- **GET `/profesor-materias/:id`**: Obtener asignación por ID
+- **POST `/profesor-materias`**: Crear asignación (admin)
+- **PUT `/profesor-materias/:id`**: Actualizar asignación (admin)
+- **DELETE `/profesor-materias/:id`**: Eliminar asignación (admin)
+
+---
+
+### 9. Historial de Notas
+- **GET `/historial-notas`**: Listar historial (admin)
+- **GET `/historial-notas/:estudianteId`**: Historial de un estudiante (admin)
+- **POST `/historial-notas`**: Crear registro (admin)
+
+---
+
+### 10. Dashboard y Reportes
+- **GET `/dashboard/counts`**: Contar estudiantes y profesores
+- **GET `/reportes/usuarios`**: Contar usuarios por tipo
+
+---
+
+### 11. Autenticación
+- **POST `/auth/register`**: Registrar usuario (admin)
+- **POST `/auth/login`**: Iniciar sesión
+
+#### Ejemplo de login
 ```json
 {
   "username": "admin",
   "password": "admin123"
 }
 ```
-- **Response:**
+Respuesta:
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbCI6ImFkbWluIiwiaWF0IjoxNjE2MjM5MDIyfQ.4XJ9XJ9XJ9XJ9XJ9XJ9XJ9XJ9XJ9XJ9XJ9XJ9XJ9"
+  "token": "..."
 }
 ```
 
 ---
 
-### Nota
-- Todas las rutas protegidas requieren el encabezado `Authorization` con un token válido.
-- Los datos de ejemplo son ilustrativos y pueden variar según la implementación.
+### Notas generales
+- Todas las rutas protegidas requieren el header `Authorization: Bearer <token>`.
+- Los roles válidos son: `admin`, `profesor`, `estudiante`.
+- Los ejemplos de respuesta pueden variar según los datos reales.
+- Para rutas con parámetros, reemplaza los valores entre `:` por el valor real.

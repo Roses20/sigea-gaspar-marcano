@@ -102,10 +102,6 @@
             <input type="email" name="email" required class="border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn" placeholder="Ejemplo: mariagonzalez@email.com"/>
           </label>
           <label class="flex flex-col">
-            <span class="font-semibold mb-1">Número de empleado</span>
-            <input type="text" name="numero_empleado" required class="border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn" placeholder="Ejemplo: 12345"/>
-          </label>
-          <label class="flex flex-col">
             <span class="font-semibold mb-1">Dirección</span>
             <input type="text" name="direccion" class="border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-btn" placeholder="Ejemplo: Av. Principal, Edif. 10"/>
           </label>
@@ -151,11 +147,20 @@ if (form && feedback) {
     feedback.className = 'text-blue-500 mt-2 animate-fade-in';
     const data = Object.fromEntries(new FormData(form));
     try {
+      // Obtener el token del admin desde localStorage o sessionStorage
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      if (!token) {
+        feedback.textContent = 'No hay sesión de administrador activa.';
+        feedback.className = 'text-red-600 mt-2 animate-fade-in';
+        return;
+      }
       const res = await fetch('/api/profesores', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-        credentials: 'include'
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
       });
       if (!res.ok) throw new Error(await res.text());
       feedback.textContent = 'Profesor registrado exitosamente';

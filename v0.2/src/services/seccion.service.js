@@ -1,20 +1,20 @@
-const { models } = require('../libs/sequelize');
+const { Seccion } = require('../db/models');
 
 class SeccionService {
     constructor() {}
 
     async create(data) {
-        const newSeccion = await models.Seccion.create(data);
+        const newSeccion = await Seccion.create(data);
         return newSeccion;
     }
 
     async findAll() {
-        const secciones = await models.Seccion.findAll();
+        const secciones = await Seccion.findAll();
         return secciones;
     }
 
     async findOne(id) {
-        const seccion = await models.Seccion.findByPk(id);
+        const seccion = await Seccion.findByPk(id);
         if (!seccion) {
             throw new Error('Sección no encontrada');
         }

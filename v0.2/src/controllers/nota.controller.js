@@ -34,7 +34,7 @@ const updateNota = async (req, res, next) => {
     try {
         const { id } = req.params;
         const changes = req.body;
-        const updatedNota = await service.update(id, changes);
+        const updatedNota = await service.update(id, changes, req.user);
         res.json(updatedNota);
     } catch (error) {
         next(error);
