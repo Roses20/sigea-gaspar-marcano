@@ -10,6 +10,7 @@ const cancelarBtn = document.getElementById('cancelar-edicion');
 const idInput = document.getElementById('materia-id');
 const nombreInput = document.getElementById('nombre');
 const codigoInput = document.getElementById('codigo');
+const nivelInput = document.getElementById('nivel');
 
 let editando = false;
 
@@ -29,19 +30,26 @@ async function cargarMaterias() {
     const res = await fetch(API_URL, { credentials: 'include' });
     if (!res.ok) throw new Error('Error al cargar materias');
     const materias = await res.json();
+    alert('Respuesta cruda del backend: ' + JSON.stringify(materias));
+    console.log('Materias recibidas (crudo):', materias); // <-- Depuración fuerte
     if (!Array.isArray(materias) || materias.length === 0) {
-      mostrarTablaFeedback('No hay materias registradas.', false);
+      mostrarTablaFeedback('No hay materias registradas o la respuesta es inválida.', false);
       return;
     }
+    tbody.innerHTML = '';
     materias.forEach(m => {
+      // Asegurarse de que id_materia es un entero y existe
+      const idMateria = Number(m.id_materia);
+      console.log('Materia:', m, 'ID:', idMateria, 'typeof:', typeof idMateria); // Depuración mejorada
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td class="px-4 py-2">${m.codigo_materia}</td>
+        <td class="px-4 py-2">${Number.isInteger(idMateria) ? idMateria : ''}</td>
         <td class="px-4 py-2">${m.nombre}</td>
-        <td class="px-4 py-2">${m.anio}</td>
+        <td class="px-4 py-2">${m.codigo}</td>
+        <td class="px-4 py-2">${m.nivel || ''}</td>
         <td class="px-4 py-2 flex gap-2">
-          <button class="bg-yellow-400 px-2 py-1 rounded text-xs" onclick="editarMateria('${m.codigo_materia}', '${m.nombre.replace(/'/g, "\\'")}', ${m.anio})">Editar</button>
-          <button class="bg-red-500 text-white px-2 py-1 rounded text-xs" onclick="eliminarMateria('${m.codigo_materia}')">Eliminar</button>
+          <button class="bg-yellow-400 px-2 py-1 rounded text-xs" onclick="editarMateria(${idMateria}, '${m.nombre.replace(/'/g, "\\'")}', '${m.codigo.replace(/'/g, "\\'")}', '${(m.nivel || '').replace(/'/g, "\\'")}' )">Editar</button>
+          <button class="bg-red-500 text-white px-2 py-1 rounded text-xs" onclick="eliminarMateria(${idMateria})">Eliminar</button>
         </td>
       `;
       tbody.appendChild(tr);
@@ -52,11 +60,12 @@ async function cargarMaterias() {
   }
 }
 
-window.editarMateria = function(id, nombre, anio) {
+window.editarMateria = function(id, nombre, codigo, nivel) {
   editando = true;
   idInput.value = id;
   nombreInput.value = nombre;
-  codigoInput.value = anio;
+  codigoInput.value = codigo;
+  nivelInput.value = nivel;
   cancelarBtn.classList.remove('hidden');
   mostrarFeedback('Editando materia ID ' + id, true);
 };
@@ -81,6 +90,7 @@ cancelarBtn.addEventListener('click', () => {
   idInput.value = '';
   nombreInput.value = '';
   codigoInput.value = '';
+  nivelInput.value = '';
   cancelarBtn.classList.add('hidden');
   mostrarFeedback('', true);
 });
@@ -88,8 +98,9 @@ cancelarBtn.addEventListener('click', () => {
 form.addEventListener('submit', async e => {
   e.preventDefault();
   const nombre = nombreInput.value.trim();
-  const anio = codigoInput.value.trim();
-  if (!nombre || !anio) {
+  const codigo = codigoInput.value.trim();
+  const nivel = nivelInput.value.trim();
+  if (!nombre || !codigo || !nivel) {
     mostrarFeedback('Todos los campos son obligatorios.', false);
     return;
   }
@@ -100,14 +111,14 @@ form.addEventListener('submit', async e => {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ nombre, anio })
+        body: JSON.stringify({ nombre, codigo, nivel })
       });
     } else {
       res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ nombre, anio })
+        body: JSON.stringify({ nombre, codigo, nivel })
       });
     }
     if (!res.ok) throw new Error('Error al guardar');

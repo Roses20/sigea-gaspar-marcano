@@ -1,86 +1,63 @@
-const profesorService = require('../services/profesor.service');
+const { Profesor } = require('../db/models');
 
-// Controlador para Profesor adaptado a IDs personalizados y relaciones muchos-a-muchos
-exports.getProfesores = async function(req, res) {
-  try {
-    const profesores = await profesorService.findAll();
-    res.json(profesores);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.getProfesor = async function(req, res) {
-  try {
-    const { cedula } = req.params;
-    const profesor = await profesorService.getByCedula(cedula);
-    if (!profesor) return res.status(404).json({ error: 'No encontrado' });
-    res.json(profesor);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.createProfesor = async function(req, res) {
-  try {
-    const data = req.body;
-    const nuevo = await profesorService.create(data);
-    res.status(201).json(nuevo);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
-
-exports.updateProfesor = async function(req, res) {
-  try {
-    const { cedula } = req.params;
-    const data = req.body;
-    const actualizado = await profesorService.updateByCedula(cedula, data);
-    if (!actualizado) return res.status(404).json({ error: 'No encontrado' });
-    res.json(actualizado);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.deleteProfesor = async function(req, res) {
-  try {
-    const { cedula } = req.params;
-    const eliminado = await profesorService.removeByCedula(cedula);
-    if (!eliminado) return res.status(404).json({ error: 'No encontrado' });
-    res.json({ eliminado: true });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.getMaterias = async function(req, res) {
-  try {
-    const { id_profesor } = req.params;
-    const materias = await profesorService.getMaterias(id_profesor);
-    res.json(materias);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.asignarMateria = async function(req, res) {
-  try {
-    const { id_profesor } = req.params;
-    const { codigo_materia } = req.body;
-    const result = await profesorService.asignarMateria(id_profesor, codigo_materia);
-    res.json(result);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
-
-exports.quitarMateria = async function(req, res) {
-  try {
-    const { id_profesor, codigo_materia } = req.params;
-    const result = await profesorService.quitarMateria(id_profesor, codigo_materia);
-    res.json(result);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+module.exports = {
+  async getAll(req, res) {
+    try {
+      const items = await Profesor.findAll();
+      res.json(items);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  },
+  async getById(req, res) {
+    try {
+      const item = await Profesor.findByPk(req.params.id);
+      if (!item) return res.status(404).json({ error: 'No encontrado' });
+      res.json(item);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  },
+  async create(req, res) {
+    try {
+      const nuevo = await Profesor.create(req.body);
+      res.status(201).json(nuevo);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  },
+  async update(req, res) {
+    try {
+      const item = await Profesor.findByPk(req.params.id);
+      if (!item) return res.status(404).json({ error: 'No encontrado' });
+      await item.update(req.body);
+      res.json(item);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  },
+  async delete(req, res) {
+    try {
+      const item = await Profesor.findByPk(req.params.id);
+      if (!item) return res.status(404).json({ error: 'No encontrado' });
+      await item.destroy();
+      res.status(204).send();
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  },
+  async count(req, res) {
+    try {
+      const total = await Profesor.count();
+      res.json({ total });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
   }
 };

@@ -1,54 +1,41 @@
-const { Usuario, Sequelize } = require('../db/models');
+const { Usuario, Estudiante, Profesor } = require('../db/models');
+const bcrypt = require('bcryptjs');
 
-class UsuarioService {
-    constructor() {}
-
-    async create(data) {
-        // Generar ID único según el rol
-        let prefix = '';
-        if (data.rol === 'estudiante') prefix = 'ST';
-        else if (data.rol === 'profesor') prefix = 'PR';
-        else prefix = 'AD';
-        // Buscar el último ID existente con ese prefijo
-        const last = await Usuario.findOne({
-            where: { id: { [Sequelize.Op.like]: `${prefix}%` } },
-            order: [['id', 'DESC']]
-        });
-        let num = 1;
-        if (last && last.id) {
-            const match = last.id.match(/\d+$/);
-            if (match) num = parseInt(match[0], 10) + 1;
-        }
-        const id = `${prefix}${String(num).padStart(3, '0')}`;
-        data.id = id;
-        const newUsuario = await Usuario.create(data);
-        return newUsuario;
+module.exports = {
+  findAll: async () => {
+    // Incluye datos de estudiante o profesor si corresponde
+    return Usuario.findAll({
+      include: [
+        { model: Estudiante, as: 'estudiante', required: false },
+        { model: Profesor, as: 'profesor', required: false }
+      ]
+    });
+  },
+  findById: (id) => Usuario.findByPk(id),
+  create: async (data) => {
+    if (data.password) {
+      data.password_hash = await bcrypt.hash(data.password, 10);
+      delete data.password;
     }
-
-    async findAll() {
-        const usuarios = await Usuario.findAll();
-        return usuarios;
+    return Usuario.create(data);
+  },
+  update: async (id, data) => {
+    if (data.password) {
+      data.password_hash = await bcrypt.hash(data.password, 10);
+      delete data.password;
     }
-
-    async findOne(id) {
-        const usuario = await Usuario.findByPk(id);
-        if (!usuario) {
-            throw new Error('Usuario no encontrado');
-        }
-        return usuario;
+    return Usuario.update(data, { where: { id_usuario: id } });
+  },
+  delete: async (id) => {
+    const usuario = await Usuario.findByPk(id);
+    if (!usuario) return null;
+    // Elimina el estudiante o profesor relacionado si existe
+    if (usuario.rol === 'estudiante' && usuario.id_persona) {
+      await Estudiante.destroy({ where: { id_estudiante: usuario.id_persona } });
     }
-
-    async update(id, changes) {
-        const usuario = await this.findOne(id);
-        const updatedUsuario = await usuario.update(changes);
-        return updatedUsuario;
+    if (usuario.rol === 'profesor' && usuario.id_persona) {
+      await Profesor.destroy({ where: { id_profesor: usuario.id_persona } });
     }
-
-    async delete(id) {
-        const usuario = await this.findOne(id);
-        await usuario.destroy();
-        return { id };
-    }
-}
-
-module.exports = UsuarioService;
+    return Usuario.destroy({ where: { id_usuario: id } });
+  }
+};

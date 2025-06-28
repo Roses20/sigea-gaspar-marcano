@@ -149,6 +149,38 @@ async function cargarUsuarios() {
   }
 }
 
+async function crearUsuario(data) {
+  const response = await fetch('/api/usuarios', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) throw new Error('No se pudo crear el usuario');
+  return await response.json();
+}
+
+async function editarUsuario(id) {
+  // Puedes mostrar un formulario modal aquí para editar
+  const nuevoUsername = prompt('Nuevo nombre de usuario:');
+  if (nuevoUsername === null) return;
+  const nuevoRol = prompt('Nuevo rol (admin, estudiante, profesor):');
+  if (nuevoRol === null) return;
+  const response = await fetch(`/api/usuarios/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: nuevoUsername, rol: nuevoRol })
+  });
+  if (!response.ok) throw new Error('No se pudo editar el usuario');
+  cargarUsuarios();
+}
+
+async function eliminarUsuario(id) {
+  if (!confirm('¿Eliminar este usuario?')) return;
+  const response = await fetch(`/api/usuarios/${id}`, { method: 'DELETE' });
+  if (!response.ok) throw new Error('No se pudo eliminar el usuario');
+  cargarUsuarios();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   cargarUsuarios();
   document.querySelectorAll('.fade-in').forEach(el => {

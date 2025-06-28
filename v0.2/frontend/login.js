@@ -3,19 +3,19 @@ document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('form');
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
-    const email = document.getElementById('email').value;
+    const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const errorDiv = document.getElementById('login-error');
-    const emailError = document.getElementById('email-error');
+    const usernameError = document.getElementById('username-error');
     const passwordError = document.getElementById('password-error');
     // Limpiar mensajes previos
     errorDiv.classList.add('hidden');
     errorDiv.textContent = '';
-    emailError.classList.add('hidden');
-    emailError.textContent = '';
+    usernameError.classList.add('hidden');
+    usernameError.textContent = '';
     passwordError.classList.add('hidden');
     passwordError.textContent = '';
-    document.getElementById('email').classList.remove('border-red-500');
+    document.getElementById('username').classList.remove('border-red-500');
     document.getElementById('password').classList.remove('border-red-500');
     // Obtener el estado del checkbox 'Recuérdame'
     const rememberMe = document.querySelector('input[type="checkbox"]:not(#toggle-password)').checked;
@@ -25,13 +25,11 @@ document.addEventListener('DOMContentLoaded', function () {
     localStorage.removeItem('usuario');
     localStorage.removeItem('sessionTimestamp');
     localStorage.removeItem('rol');
-    localStorage.removeItem('email');
     localStorage.removeItem('username');
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('usuario');
     sessionStorage.removeItem('sessionTimestamp');
     sessionStorage.removeItem('rol');
-    sessionStorage.removeItem('email');
     sessionStorage.removeItem('username');
 
     try {
@@ -40,9 +38,18 @@ document.addEventListener('DOMContentLoaded', function () {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, password }),
       });
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+        console.log('Respuesta del backend:', data);
+      } catch (jsonErr) {
+        console.error('Error al parsear JSON:', jsonErr);
+        errorDiv.textContent = 'Respuesta inválida del servidor';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
       if (response.ok) {
         // Guardar token, usuario y timestamp según 'Recuérdame'
         if (rememberMe) {
@@ -50,14 +57,12 @@ document.addEventListener('DOMContentLoaded', function () {
           localStorage.setItem('usuario', JSON.stringify(data.usuario));
           localStorage.setItem('sessionTimestamp', Date.now());
           localStorage.setItem('rol', data.usuario.rol);
-          localStorage.setItem('email', data.usuario.email);
           localStorage.setItem('username', data.usuario.username);
         } else {
           sessionStorage.setItem('token', data.token);
           sessionStorage.setItem('usuario', JSON.stringify(data.usuario));
           sessionStorage.setItem('sessionTimestamp', Date.now());
           sessionStorage.setItem('rol', data.usuario.rol);
-          sessionStorage.setItem('email', data.usuario.email);
           sessionStorage.setItem('username', data.usuario.username);
         }
         // Redirigir según el rol recibido
@@ -80,17 +85,17 @@ document.addEventListener('DOMContentLoaded', function () {
       } else {
         // Mostrar errores específicos
         if (data.message && data.message.toLowerCase().includes('usuario no encontrado')) {
-          emailError.textContent = 'Correo electrónico no registrado o inválido.';
-          emailError.classList.remove('hidden');
-          document.getElementById('email').classList.add('border-red-500');
+          usernameError.textContent = 'Usuario no registrado o inválido.';
+          usernameError.classList.remove('hidden');
+          document.getElementById('username').classList.add('border-red-500');
         } else if (data.message && data.message.toLowerCase().includes('contraseña incorrecta')) {
           passwordError.textContent = 'Contraseña incorrecta.';
           passwordError.classList.remove('hidden');
           document.getElementById('password').classList.add('border-red-500');
-        } else if (data.message && data.message.toLowerCase().includes('email')) {
-          emailError.textContent = data.message;
-          emailError.classList.remove('hidden');
-          document.getElementById('email').classList.add('border-red-500');
+        } else if (data.message && data.message.toLowerCase().includes('username')) {
+          usernameError.textContent = data.message;
+          usernameError.classList.remove('hidden');
+          document.getElementById('username').classList.add('border-red-500');
         } else if (data.message && data.message.toLowerCase().includes('password')) {
           passwordError.textContent = data.message;
           passwordError.classList.remove('hidden');
@@ -101,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
     } catch (err) {
+      console.error('Error en fetch:', err);
       errorDiv.textContent = 'No se pudo conectar con el servidor';
       errorDiv.classList.remove('hidden');
     }

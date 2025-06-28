@@ -2,16 +2,16 @@ const { Model, DataTypes } = require('sequelize');
 
 class Estudiante extends Model {
   static associate(models) {
-    Estudiante.belongsToMany(models.Materia, {
-      through: models.EstudianteMateria,
+    // Relación con inscripciones
+    Estudiante.hasMany(models.Inscripcion, {
       foreignKey: 'id_estudiante',
-      otherKey: 'codigo_materia'
+      as: 'inscripciones'
     });
   }
   static config(sequelize) {
     return {
       sequelize,
-      tableName: 'estudiante',
+      tableName: 'estudiantes',
       modelName: 'Estudiante',
       timestamps: false
     };
@@ -20,37 +20,34 @@ class Estudiante extends Model {
 
 const EstudianteSchema = {
   id_estudiante: {
-    type: DataTypes.STRING(10),
-    primaryKey: true
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
   },
-  cedula: {
+  cedula_estudiante: {
     type: DataTypes.STRING(20),
     unique: true,
     allowNull: false
   },
-  nombre: {
+  nombres: {
     type: DataTypes.STRING(100),
     allowNull: false
   },
-  apellido: {
+  apellidos: {
     type: DataTypes.STRING(100),
     allowNull: false
   },
-  correo: {
+  fecha_nacimiento: DataTypes.DATEONLY,
+  genero: DataTypes.STRING(10),
+  direccion: DataTypes.STRING(255),
+  telefono: DataTypes.STRING(20),
+  email: {
     type: DataTypes.STRING(100),
     unique: true,
     allowNull: false
   },
-  telefono: DataTypes.STRING(20),
-  direccion: DataTypes.STRING(255),
-  anio: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  },
-  seccion: {
-    type: DataTypes.STRING(10),
-    allowNull: false
-  }
+  fecha_ingreso: DataTypes.DATEONLY,
+  estado: DataTypes.STRING(20)
 };
 
 module.exports = { Estudiante, EstudianteSchema };

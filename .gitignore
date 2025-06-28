@@ -1,5 +1,6 @@
 # Ignorar dependencias
 node_modules/
+v0.2/node_modules/
 
 # Ignorar archivos de entorno
 .env
@@ -21,3 +22,6 @@ v0.1/testing/
 
 # Ignorar script de commit
 git_commit.sh
+
+# Ignorar dependencias de VS Code
+.vscode/

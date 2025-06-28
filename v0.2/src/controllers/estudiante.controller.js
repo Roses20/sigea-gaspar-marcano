@@ -1,9 +1,9 @@
-const estudianteService = require('../services/estudiante.service');
+const { Estudiante } = require('../db/models');
 
 // Controlador para Estudiante adaptado a IDs personalizados y relaciones muchos-a-muchos
 exports.getEstudiantes = async function(req, res) {
   try {
-    const estudiantes = await estudianteService.findAll();
+    const estudiantes = await Estudiante.findAll();
     res.json(estudiantes);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -12,8 +12,7 @@ exports.getEstudiantes = async function(req, res) {
 
 exports.getEstudiante = async function(req, res) {
   try {
-    const { cedula } = req.params;
-    const estudiante = await estudianteService.getByCedula(cedula);
+    const estudiante = await Estudiante.findByPk(req.params.id);
     if (!estudiante) return res.status(404).json({ error: 'No encontrado' });
     res.json(estudiante);
   } catch (err) {
@@ -23,8 +22,7 @@ exports.getEstudiante = async function(req, res) {
 
 exports.createEstudiante = async function(req, res) {
   try {
-    const data = req.body;
-    const nuevo = await estudianteService.create(data);
+    const nuevo = await Estudiante.create(req.body);
     res.status(201).json(nuevo);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -33,11 +31,10 @@ exports.createEstudiante = async function(req, res) {
 
 exports.updateEstudiante = async function(req, res) {
   try {
-    const { cedula } = req.params;
-    const data = req.body;
-    const actualizado = await estudianteService.updateByCedula(cedula, data);
-    if (!actualizado) return res.status(404).json({ error: 'No encontrado' });
-    res.json(actualizado);
+    const estudiante = await Estudiante.findByPk(req.params.id);
+    if (!estudiante) return res.status(404).json({ error: 'No encontrado' });
+    await estudiante.update(req.body);
+    res.json(estudiante);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -45,10 +42,10 @@ exports.updateEstudiante = async function(req, res) {
 
 exports.deleteEstudiante = async function(req, res) {
   try {
-    const { cedula } = req.params;
-    const eliminado = await estudianteService.removeByCedula(cedula);
-    if (!eliminado) return res.status(404).json({ error: 'No encontrado' });
-    res.json({ eliminado: true });
+    const estudiante = await Estudiante.findByPk(req.params.id);
+    if (!estudiante) return res.status(404).json({ error: 'No encontrado' });
+    await estudiante.destroy();
+    res.status(204).send();
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -82,5 +79,14 @@ exports.quitarMateria = async function(req, res) {
     res.json(result);
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+};
+
+exports.count = async (req, res) => {
+  try {
+    const total = await Estudiante.count();
+    res.json({ total });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };

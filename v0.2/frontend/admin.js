@@ -62,4 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.replace('login.html');
     });
   });
+
+  // Eliminar referencias a periodos y secciones en menús si existen
 });

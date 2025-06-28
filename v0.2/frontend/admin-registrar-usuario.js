@@ -40,6 +40,52 @@ document.addEventListener('DOMContentLoaded', function () {
   const idProfesorField = document.getElementById('id-profesor-field');
   const codigoMateriaField = document.getElementById('codigo-materia-field');
 
+  // IDs existentes
+  let idsEstudiantes = [];
+  let idsProfesores = [];
+
+  async function fetchIds() {
+    // Obtiene todos los IDs de estudiantes y profesores
+    try {
+      const resEst = await fetch('/api/estudiantes', { headers: { 'Authorization': 'Bearer ' + token } });
+      const estudiantes = await resEst.json();
+      idsEstudiantes = estudiantes.map(e => e.id_estudiante || '').filter(Boolean);
+      const resProf = await fetch('/api/profesores', { headers: { 'Authorization': 'Bearer ' + token } });
+      const profesores = await resProf.json();
+      idsProfesores = profesores.map(p => p.id_profesor || '').filter(Boolean);
+    } catch (e) {
+      // Si falla, deja los arrays vacíos
+      idsEstudiantes = [];
+      idsProfesores = [];
+    }
+  }
+
+  function generarId(tipo) {
+    let ids = tipo === 'estudiante' ? idsEstudiantes : idsProfesores;
+    let prefijo = tipo === 'estudiante' ? 'ST' : 'PR';
+    let max = 0;
+    ids.forEach(id => {
+      const match = id && id.startsWith(prefijo) ? parseInt(id.slice(2)) : 0;
+      if (!isNaN(match) && match > max) max = match;
+    });
+    let nuevo = (max + 1).toString().padStart(3, '0');
+    return prefijo + nuevo;
+  }
+
+  async function setAutoId() {
+    await fetchIds();
+    const rol = rolSelect.value;
+    if (rol === 'estudiante') {
+      const id = generarId('estudiante');
+      form.id_estudiante.value = id;
+      form.id_estudiante.readOnly = true;
+    } else if (rol === 'profesor') {
+      const id = generarId('profesor');
+      form.id_profesor.value = id;
+      form.id_profesor.readOnly = true;
+    }
+  }
+
   function updateFields() {
     const rol = rolSelect.value;
     // Hide all by default
@@ -47,8 +93,13 @@ document.addEventListener('DOMContentLoaded', function () {
     idProfesorField.style.display = 'none';
     codigoMateriaField.style.display = 'none';
     extraFields.innerHTML = '';
+    // Eliminar opción de admin si existe
+    const adminOption = rolSelect.querySelector('option[value="admin"]');
+    if (adminOption) adminOption.remove();
     if (rol === 'estudiante') {
       idEstudianteField.style.display = '';
+      form.id_estudiante.value = '';
+      form.id_estudiante.readOnly = false;
       extraFields.innerHTML = `
         <div>
           <label for="cedula" class="block text-sm font-medium">Cédula</label>
@@ -61,57 +112,50 @@ document.addEventListener('DOMContentLoaded', function () {
       `;
     } else if (rol === 'profesor') {
       idProfesorField.style.display = '';
+      form.id_profesor.value = '';
+      form.id_profesor.readOnly = false;
       extraFields.innerHTML = `
         <div>
           <label for="especialidad" class="block text-sm font-medium">Especialidad</label>
           <input type="text" id="especialidad" name="especialidad" required placeholder="Ej: Matemáticas" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
         </div>
       `;
-    } else if (rol === 'admin') {
-      // No extra fields, no ID fields
     }
   }
 
-  rolSelect.addEventListener('change', updateFields);
+  rolSelect.addEventListener('change', () => {
+    updateFields();
+  });
+  // Al cargar la página
   updateFields(); // On load
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     feedback.textContent = '';
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-    if (!['profesor', 'estudiante'].includes(data.rol)) {
-      feedback.textContent = 'Debes seleccionar un tipo de usuario válido.';
-      feedback.className = 'text-red-600';
+    // Recopilar datos según el rol
+    const rol = rolSelect.value;
+    if (rol === 'admin') {
+      feedback.textContent = 'No está permitido registrar usuarios con rol administrador.';
       return;
     }
+    let body = { username: form.username.value, password: form.password.value, rol };
+    if (rol === 'estudiante' && form.id_estudiante.value) {
+      body.id_persona = form.id_estudiante.value;
+    } else if (rol === 'profesor' && form.id_profesor.value) {
+      body.id_persona = form.id_profesor.value;
+    }
     try {
-      // Obtener el token del admin desde localStorage o sessionStorage
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      if (!token) {
-        feedback.textContent = 'No hay sesión de administrador activa.';
-        feedback.className = 'text-red-600';
-        return;
-      }
-      const res = await fetch('/api/usuario', {
+      const res = await fetch('/api/usuarios', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(data)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
       });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.message || 'No se pudo registrar el usuario');
-      }
+      if (!res.ok) throw new Error('No se pudo registrar el usuario');
       feedback.textContent = 'Usuario registrado correctamente.';
-      feedback.className = 'text-green-600';
       form.reset();
-      extraFields.innerHTML = '';
-    } catch (e) {
-      feedback.textContent = e.message;
-      feedback.className = 'text-red-600';
+      updateFields();
+    } catch (err) {
+      feedback.textContent = err.message;
     }
   });
 });

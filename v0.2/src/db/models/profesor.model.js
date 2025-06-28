@@ -2,47 +2,55 @@ const { Model, DataTypes } = require('sequelize');
 
 class Profesor extends Model {
   static associate(models) {
-    Profesor.belongsToMany(models.Materia, {
-      through: models.ProfesorMateria,
+    // Relación con cursos
+    Profesor.hasMany(models.Curso, {
       foreignKey: 'id_profesor',
-      otherKey: 'codigo_materia'
+      as: 'cursos'
     });
-  }
-  static config(sequelize) {
-    return {
-      sequelize,
-      tableName: 'profesor',
-      modelName: 'Profesor',
-      timestamps: false
-    };
   }
 }
 
 const ProfesorSchema = {
   id_profesor: {
-    type: DataTypes.STRING(10),
-    primaryKey: true
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
   },
-  cedula: {
+  cedula_profesor: {
     type: DataTypes.STRING(20),
     unique: true,
     allowNull: false
   },
-  nombre: {
+  nombres: {
     type: DataTypes.STRING(100),
     allowNull: false
   },
-  apellido: {
+  apellidos: {
     type: DataTypes.STRING(100),
     allowNull: false
   },
-  correo: {
+  fecha_nacimiento: DataTypes.DATEONLY,
+  genero: DataTypes.STRING(10),
+  especialidad: DataTypes.STRING(100),
+  telefono: DataTypes.STRING(20),
+  email: {
     type: DataTypes.STRING(100),
     unique: true,
     allowNull: false
   },
-  telefono: DataTypes.STRING(20),
-  direccion: DataTypes.STRING(255)
+  fecha_contratacion: DataTypes.DATEONLY,
+  estado: DataTypes.STRING(20)
 };
 
-module.exports = { Profesor, ProfesorSchema };
+// Esta función debe llamarse en tu setupModels
+function setupProfesor(sequelize) {
+  Profesor.init(ProfesorSchema, {
+    sequelize,
+    tableName: 'profesores',
+    modelName: 'Profesor',
+    timestamps: false
+  });
+  return Profesor;
+}
+
+module.exports = { Profesor, ProfesorSchema, setupProfesor};

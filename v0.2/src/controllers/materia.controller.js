@@ -1,75 +1,55 @@
-// Controlador para Materia adaptado a claves personalizadas y relaciones muchos-a-muchos
-const materiaService = require('../services/materia.service');
+const { Materia } = require('../db/models');
 
-exports.getMaterias = async function(req, res) {
-  try {
-    const materias = await materiaService.findAll();
-    res.json(materias);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.getMateria = async function(req, res) {
-  try {
-    const { codigo_materia } = req.params;
-    const materia = await materiaService.getById(codigo_materia);
-    if (!materia) return res.status(404).json({ error: 'No encontrado' });
-    res.json(materia);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.createMateria = async function(req, res) {
-  try {
-    const data = req.body;
-    const nuevo = await materiaService.create(data);
+module.exports = {
+  async getAll(req, res) {
+    const items = await Materia.findAll();
+    // Forzar que cada objeto tenga id_materia como propiedad
+    const result = items.map(m => ({
+      id_materia: m.id_materia,
+      codigo: m.codigo,
+      nombre: m.nombre,
+      descripcion: m.descripcion,
+      nivel: m.nivel
+    }));
+    res.json(result);
+  },
+  async getById(req, res) {
+    const item = await Materia.findByPk(req.params.id);
+    if (!item) return res.status(404).json({ error: 'No encontrado' });
+    res.json(item);
+  },
+  async create(req, res) {
+    const nuevo = await Materia.create(req.body);
     res.status(201).json(nuevo);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
-
-exports.updateMateria = async function(req, res) {
-  try {
-    const { codigo_materia } = req.params;
-    const data = req.body;
-    const actualizado = await materiaService.update(codigo_materia, data);
-    if (!actualizado) return res.status(404).json({ error: 'No encontrado' });
-    res.json(actualizado);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
-
-exports.deleteMateria = async function(req, res) {
-  try {
-    const { codigo_materia } = req.params;
-    const eliminado = await materiaService.remove(codigo_materia);
-    if (!eliminado) return res.status(404).json({ error: 'No encontrado' });
-    res.json({ message: 'Eliminado' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.getEstudiantes = async function(req, res) {
-  try {
-    const { codigo_materia } = req.params;
-    const estudiantes = await materiaService.getEstudiantes(codigo_materia);
-    res.json(estudiantes);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.getProfesores = async function(req, res) {
-  try {
-    const { codigo_materia } = req.params;
-    const profesores = await materiaService.getProfesores(codigo_materia);
-    res.json(profesores);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  },
+  async update(req, res) {
+    const item = await Materia.findByPk(req.params.id);
+    if (!item) return res.status(404).json({ error: 'No encontrado' });
+    await item.update(req.body);
+    res.json(item);
+  },
+  async delete(req, res) {
+    try {
+      const { Curso, Inscripcion, Calificacion } = require('../db/models');
+      const item = await Materia.findByPk(req.params.id);
+      if (!item) return res.status(404).json({ error: 'No encontrado' });
+      // Buscar cursos relacionados
+      const cursos = await Curso.findAll({ where: { id_materia: item.id_materia || item.id } });
+      for (const curso of cursos) {
+        // Buscar inscripciones relacionadas a cada curso
+        const inscripciones = await Inscripcion.findAll({ where: { id_curso: curso.id_curso || curso.id } });
+        for (const insc of inscripciones) {
+          // Eliminar calificaciones relacionadas a cada inscripción
+          await Calificacion.destroy({ where: { id_inscripcion: insc.id_inscripcion || insc.id } });
+          await insc.destroy();
+        }
+        await curso.destroy();
+      }
+      await item.destroy();
+      res.status(204).send();
+    } catch (err) {
+      console.error('Error al eliminar materia y dependencias:', err);
+      res.status(500).json({ error: 'No se pudo eliminar la materia. Verifica que no existan dependencias huérfanas.' });
+    }
   }
 };

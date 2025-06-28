@@ -1,7 +1,7 @@
 // admin-historial-notas.js
 // Consulta y muestra el historial de notas de un estudiante por ID
 
-const API_URL = '/api/historial-notas';
+const API_URL = '/api/calificacion/historial';
 const tbody = document.getElementById('notas-tbody');
 const form = document.getElementById('busqueda-form');
 const feedback = document.getElementById('form-feedback');
@@ -28,9 +28,9 @@ function renderHistorial(historial) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td class="px-4 py-2">${nota.materia?.nombre || ''}</td>
-      <td class="px-4 py-2">${nota.periodo?.nombre || ''}</td>
-      <td class="px-4 py-2">${nota.nota != null ? nota.nota : ''}</td>
-      <td class="px-4 py-2">${nota.createdAt ? nota.createdAt.substring(0,10) : ''}</td>
+      <td class="px-4 py-2">${nota.curso?.periodo_academico || ''}</td>
+      <td class="px-4 py-2">${nota.puntaje != null ? nota.puntaje : ''}</td>
+      <td class="px-4 py-2">${nota.fecha_registro ? nota.fecha_registro.substring(0,10) : ''}</td>
     `;
     tbody.appendChild(tr);
   });

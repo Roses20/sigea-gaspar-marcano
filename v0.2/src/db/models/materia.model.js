@@ -2,21 +2,16 @@ const { Model, DataTypes } = require('sequelize');
 
 class Materia extends Model {
   static associate(models) {
-    Materia.belongsToMany(models.Profesor, {
-      through: models.ProfesorMateria,
-      foreignKey: 'codigo_materia',
-      otherKey: 'id_profesor'
-    });
-    Materia.belongsToMany(models.Estudiante, {
-      through: models.EstudianteMateria,
-      foreignKey: 'codigo_materia',
-      otherKey: 'id_estudiante'
+    // Relación con cursos
+    Materia.hasMany(models.Curso, {
+      foreignKey: 'id_materia',
+      as: 'cursos'
     });
   }
   static config(sequelize) {
     return {
       sequelize,
-      tableName: 'materia',
+      tableName: 'materias',
       modelName: 'Materia',
       timestamps: false
     };
@@ -24,18 +19,22 @@ class Materia extends Model {
 }
 
 const MateriaSchema = {
-  codigo_materia: {
+  id_materia: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  codigo: {
     type: DataTypes.STRING(20),
-    primaryKey: true
+    unique: true,
+    allowNull: false
   },
   nombre: {
     type: DataTypes.STRING(100),
     allowNull: false
   },
-  anio: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  }
+  descripcion: DataTypes.STRING(255),
+  nivel: DataTypes.STRING(20)
 };
 
 module.exports = { Materia, MateriaSchema };

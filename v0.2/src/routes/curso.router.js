@@ -1,5 +1,5 @@
 const express = require('express');
-const ctrl = require('../controllers/materia.controller');
+const ctrl = require('../controllers/curso.controller');
 const router = express.Router();
 
 router.get('/', ctrl.getAll);

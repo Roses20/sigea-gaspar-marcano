@@ -1,0 +1,64 @@
+estudiantes:
+    id_estudiante (PK)
+    cedula_estudiante (único)
+    nombres
+    apellidos
+    fecha_nacimiento
+    genero
+    direccion
+    telefono
+    email
+    fecha_ingreso
+    estado
+
+profesores:
+    id_profesor (PK)
+    cedula_profesor (único)
+    nombres
+    apellidos
+    fecha_nacimiento
+    genero
+    especialidad
+    telefono
+    email
+    fecha_contratacion
+    estado
+
+materias:
+    id_materia (PK)
+    codigo (único)
+    nombre
+    descripcion
+    nivel
+
+cursos:
+    id_curso (PK)
+    id_materia (FK de materias)
+    id_profesor (FK de profesores)
+    periodo_academico
+
+inscripciones:
+    id_inscripcion (PK)
+    id_estudiante (FK de estudiantes)
+    id_curso (FK de cursos)
+    fecha_inscripcion
+    estado
+    único (id_estudiante, id_curso)
+
+calificaciones:
+    id_calificacion (PK)
+    id_inscripcion (FK de inscripciones)
+    tipo_evaluacion
+    puntaje
+    porcentaje
+    fecha_registro
+    comentarios
+
+usuarios:
+    id_usuario (PK)
+    username
+    password_hash
+    rol
+    id_persona
+    ultimo_login
+    estado

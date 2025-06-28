@@ -119,18 +119,34 @@ if (openMenu && dropdown) {
 }
 
 // Cargar datos reales de la base de datos
-fetch('/api/reportes/usuarios', { credentials: 'include' })
-  .then(res => res.json())
-  .then(data => {
-    if (data && data.usuarios) {
-      document.getElementById('profesores-count').textContent = data.usuarios.profesores || 0;
-      document.getElementById('estudiantes-count').textContent = data.usuarios.estudiantes || 0;
-    }
+(function cargarDashboardAdmin() {
+  function getSessionItem(key) {
+    return localStorage.getItem(key) || sessionStorage.getItem(key);
+  }
+  const token = getSessionItem('token');
+  // Profesores
+  fetch('http://localhost:3000/api/profesores/count', {
+    headers: { 'Authorization': 'Bearer ' + token }
   })
-  .catch(() => {
-    document.getElementById('profesores-count').textContent = '-';
-    document.getElementById('estudiantes-count').textContent = '-';
-  });
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('profesores-count').textContent = data.total ?? '-';
+    })
+    .catch(() => {
+      document.getElementById('profesores-count').textContent = '-';
+    });
+  // Estudiantes
+  fetch('http://localhost:3000/api/estudiantes/count', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('estudiantes-count').textContent = data.total ?? '-';
+    })
+    .catch(() => {
+      document.getElementById('estudiantes-count').textContent = '-';
+    });
+})();
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.fade-in').forEach(el => {

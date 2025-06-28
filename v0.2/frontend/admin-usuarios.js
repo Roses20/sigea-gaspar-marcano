@@ -36,7 +36,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-gray-500">Cargando usuarios...</td></tr>';
 
   try {
-    const response = await fetch('http://localhost:3000/api/usuario', {
+    // Cambia la URL para que coincida con la ruta del backend
+    const response = await fetch('http://localhost:3000/api/usuarios', {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -57,15 +58,36 @@ function renderUsuarios(usuarios) {
   const tbody = document.querySelector('table tbody');
   tbody.innerHTML = '';
   usuarios.forEach(usuario => {
+    // Determinar si es estudiante o profesor
+    let nombre = '';
+    let correo = '';
+    let telefono = '';
+    let idEstudiante = '';
+    let idProfesor = '';
+    if (usuario.estudiante) {
+      nombre = `${usuario.estudiante.nombres} ${usuario.estudiante.apellidos}`;
+      correo = usuario.estudiante.email || '';
+      telefono = usuario.estudiante.telefono || '';
+      idEstudiante = usuario.estudiante.id_estudiante;
+    } else if (usuario.profesor) {
+      nombre = `${usuario.profesor.nombres} ${usuario.profesor.apellidos}`;
+      correo = usuario.profesor.email || '';
+      telefono = usuario.profesor.telefono || '';
+      idProfesor = usuario.profesor.id_profesor;
+    } else {
+      nombre = usuario.username || '';
+    }
     tbody.innerHTML += `
-      <tr class="hover:bg-gray-100">
-        <td class="border border-gray-300 px-4 py-2">${usuario.username || ''}</td>
-        <td class="border border-gray-300 px-4 py-2">${usuario.rol || ''}</td>
-        <td class="border border-gray-300 px-4 py-2">${usuario.email || ''}</td>
-        <td class="border border-gray-300 px-4 py-2">${usuario.telefono || ''}</td>
-        <td class="border border-gray-300 px-4 py-2 space-x-2">
-          <button class="text-blue-600 hover:underline" onclick="editarUsuario(${usuario.id})">Editar</button>
-          <button class="text-red-600 hover:underline" onclick="eliminarUsuario(${usuario.id})">Eliminar</button>
+      <tr>
+        <td>${nombre}</td>
+        <td>${usuario.rol}</td>
+        <td>${correo}</td>
+        <td>${telefono}</td>
+        <td>${idEstudiante || '-'}</td>
+        <td>${idProfesor || '-'}</td>
+        <td>
+          <button onclick="editarUsuario(${usuario.id_usuario})" class="text-blue-600 hover:underline transition-btn">Editar</button>
+          <button onclick="eliminarUsuario(${usuario.id_usuario})" class="text-red-600 hover:underline transition-btn">Eliminar</button>
         </td>
       </tr>
     `;
@@ -107,22 +129,21 @@ window.eliminarUsuario = async function(id) {
 
 window.editarUsuario = async function(id) {
   try {
-    const res = await fetch(`/api/usuario/${id}`, { credentials: 'include' });
+    const res = await fetch(`/api/usuarios/${id}`);
     if (!res.ok) throw new Error('No se pudo obtener el usuario');
     const usuario = await res.json();
     const nuevoUsername = prompt('Nuevo nombre de usuario:', usuario.username);
     if (nuevoUsername === null) return;
-    const nuevoEmail = prompt('Nuevo email:', usuario.email);
-    if (nuevoEmail === null) return;
-    const nuevoTelefono = prompt('Nuevo teléfono:', usuario.telefono);
-    if (nuevoTelefono === null) return;
-    const nuevoRol = prompt('Nuevo rol (estudiante, profesor, admin):', usuario.rol);
-    if (nuevoRol === null) return;
-    const body = { username: nuevoUsername, email: nuevoEmail, telefono: nuevoTelefono, rol: nuevoRol };
-    const putRes = await fetch(`/api/usuario/${id}`, {
+    const nuevoRol = prompt('Nuevo rol (estudiante, profesor):', usuario.rol);
+    if (nuevoRol === null || nuevoRol === 'admin') {
+      alert('No está permitido cambiar a rol administrador.');
+      return;
+    }
+    // No se permite editar el ID, solo nombre y rol
+    const body = { username: nuevoUsername, rol: nuevoRol };
+    const putRes = await fetch(`/api/usuarios/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
       body: JSON.stringify(body)
     });
     if (!putRes.ok) throw new Error('No se pudo actualizar');
@@ -131,3 +152,15 @@ window.editarUsuario = async function(id) {
     alert(e.message);
   }
 };
+
+// Refrescar la lista de usuarios cada 5 segundos
+globalThis._usuariosInterval = setInterval(() => {
+  // Solo recargar si la página está visible
+  if (!document.hidden) {
+    const tbody = document.querySelector('table tbody');
+    if (tbody) {
+      // Llama a la función de carga principal
+      document.dispatchEvent(new Event('DOMContentLoaded'));
+    }
+  }
+}, 5000);
